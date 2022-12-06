@@ -1,12 +1,15 @@
 public with sharing class NotificationReminder {
-  // FIGURE OUT HOW TO ADD DYNAMIC 1 MONTH AGO AND 3 WEEKS AGO
-  // VALUES
+  // private static final Integer SALES_MANAGER_NOTIFICATION_WEEKS = 3;
+  // private static final Integer REGIONAL_MANAGER_NOTIFICATION_MONTHS = 1;
+  private static final String REGIONAL_MANAGER_ROLE = 'Regional Manager';
+
   private static final String DEVELOPER_NAME = 'Contact_Account_Reminder_Notification';
 
   private static void sendAccountReminderToSalesManager(
     Account acct,
     Id customNotificationId
   ) {
+    Set<String> recipientIds = new Set<String>();
     Messaging.CustomNotification notification = new Messaging.CustomNotification();
     notification.setTitle('Account Reminder');
     notification.setBody(
@@ -15,7 +18,26 @@ public with sharing class NotificationReminder {
     notification.setNotificationTypeId(customNotificationId);
     notification.setTargetId(acct.Id);
     notification.setSenderId(acct.Assigned_Sales_Manager__c);
-    notification.send(new Set<String>{ acct.Assigned_Sales_Manager__c });
+    recipientIds.add(acct.Assigned_Sales_Manager__c);
+    notification.send(recipientIds);
+  }
+
+  private static void sendAccountReminderToRegionalManager(
+    Account acct,
+    Id customNotificationId,
+    Set<String> regionalManagerIds
+  ) {
+    Set<String> recipientIds = new Set<String>();
+    Messaging.CustomNotification notification = new Messaging.CustomNotification();
+    notification.setTitle('Account Reminder');
+    notification.setBody(
+      'Account ' + acct.Name + ' has not been contacted in 3 weeks!'
+    );
+    notification.setNotificationTypeId(customNotificationId);
+    notification.setTargetId(acct.Id);
+    notification.setSenderId(acct.Assigned_Sales_Manager__c);
+    recipientIds.add(acct.Assigned_Sales_Manager__c);
+    notification.send(recipientIds);
   }
 
   public static void sendAccountReminderToSalesManagers() {
@@ -26,7 +48,9 @@ public with sharing class NotificationReminder {
     List<Account> lstAccount = [
       SELECT Id, Name, Assigned_Sales_Manager__c, LastActivityDate
       FROM Account
-      WHERE Assigned_Sales_Manager__c != NULL // ADD VALIDATION BY LAST ACTIVITY DATE
+      WHERE
+        Assigned_Sales_Manager__c != NULL
+        AND LastActivityDate > N_WEEKS_AGO:3
       WITH SECURITY_ENFORCED
       LIMIT 5000
     ];
@@ -35,6 +59,36 @@ public with sharing class NotificationReminder {
       NotificationReminder.sendAccountReminderToSalesManager(
         a,
         customNotificationId
+      );
+    }
+  }
+
+  public static void sendAccountReminderToRegionalManagers() {
+    Id customNotificationId = Utils.getCustomNotificationByDeveloperName(
+      NotificationReminder.DEVELOPER_NAME
+    );
+
+    List<Account> lstAccount = [
+      SELECT Id, Name, Assigned_Sales_Manager__c, LastActivityDate
+      FROM Account
+      WHERE
+        Assigned_Sales_Manager__c != NULL
+        AND LastActivityDate > N_MONTHS_AGO:1
+      WITH SECURITY_ENFORCED
+      LIMIT 5000
+    ];
+
+    Map<Id, Set<String>> regionToUsersMap = Utils.getRegionToUsersMapByRole(
+      NotificationReminder.REGIONAL_MANAGER_ROLE
+    );
+
+    for (Account a : lstAccount) {
+      Id regionId = a.Region__c;
+      Set<String> regionalManagerIds = regionToUsersMap.get(regionId);
+      NotificationReminder.sendAccountReminderToRegionalManager(
+        a,
+        customNotificationId,
+        regionalManagerIds
       );
     }
   }
