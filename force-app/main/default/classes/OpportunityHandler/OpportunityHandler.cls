@@ -9,9 +9,9 @@ public with sharing class OpportunityHandler {
     notification.setTitle('New Opportunity');
     notification.setBody('New Opportunity from ' + opp.Account.Name);
     notification.setNotificationTypeId(customNotificationTypeId);
-    notification.setTargetId(o.Id);
-    notification.setSenderId(o.OwnerId);
-    notification.send(new Set<String>{ opp.Sales_ManagerId__c });
+    notification.setTargetId(opp.Id);
+    notification.setSenderId(opp.OwnerId);
+    notification.send(new Set<String>{ opp.Account.Assigned_Sales_Manager__c });
   }
 
   public static void sendNotificationsToSalesManagers(

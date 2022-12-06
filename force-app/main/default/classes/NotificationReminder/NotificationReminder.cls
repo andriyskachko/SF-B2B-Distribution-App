@@ -14,8 +14,8 @@ public with sharing class NotificationReminder {
     );
     notification.setNotificationTypeId(customNotificationId);
     notification.setTargetId(acct.Id);
-    notification.setSenderId(acct.Sales_Manager__c);
-    notification.send(new Set<String>{ acct.Sales_Manager__c });
+    notification.setSenderId(acct.Assigned_Sales_Manager__c);
+    notification.send(new Set<String>{ acct.Assigned_Sales_Manager__c });
   }
 
   public static void sendAccountReminderToSalesManagers() {
@@ -24,15 +24,15 @@ public with sharing class NotificationReminder {
     );
 
     List<Account> lstAccount = [
-      SELECT Id, Name, Sales_Manager__c, LastActivityDate
+      SELECT Id, Name, Assigned_Sales_Manager__c, LastActivityDate
       FROM Account
-      WHERE Sales_Manager__c != NULL // ADD VALIDATION BY LAST ACTIVITY DATE
+      WHERE Assigned_Sales_Manager__c != NULL // ADD VALIDATION BY LAST ACTIVITY DATE
       WITH SECURITY_ENFORCED
       LIMIT 5000
     ];
 
     for (Account a : lstAccount) {
-      NotificationReminder.sendAccountReminderToSalesManagers(
+      NotificationReminder.sendAccountReminderToSalesManager(
         a,
         customNotificationId
       );
