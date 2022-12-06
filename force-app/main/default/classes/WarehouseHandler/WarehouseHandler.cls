@@ -21,6 +21,7 @@ public with sharing class WarehouseHandler {
     Map<Id, Schema.Location> mapWarehouseToLocation = new Map<Id, Schema.Location>();
     List<Schema.Location> lstLocations = new List<Schema.Location>();
     List<Warehouse__c> lstUpdatedWarehouses = new List<Warehouse__c>();
+
     for (Warehouse__c w : lstWarehouses) {
       Schema.Location location = new Schema.Location();
       location.Name = w.Name + ' Location';
