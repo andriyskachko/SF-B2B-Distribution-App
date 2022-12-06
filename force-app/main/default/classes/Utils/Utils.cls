@@ -62,4 +62,14 @@ public with sharing class Utils {
 
     return mapLocationWarehouse;
   }
+
+  public static Id getCustomNotificationByDeveloperName(String developerName) {
+    Map<String, Id> developerNameToCustomNotificationMap = Utils.getDeveloperNameToCustomNotificationMap();
+
+    Id customNotificationId = developerNameToCustomNotificationMap.get(
+      developerName
+    );
+
+    return customNotificationId;
+  }
 }

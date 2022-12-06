@@ -6,7 +6,7 @@ public with sharing class FulfillmentRequestHandler {
   public static void sendFulfillmentRequestedNotificationToRegionalManagers(
     List<Fulfillment_Request__c> lstFulfillmentRequest
   ) {
-    Id customNotificationId = FulfillmentRequestHandler.getCustomNotificationByDeveloperName(
+    Id customNotificationId = Utils.getCustomNotificationByDeveloperName(
       FulfillmentRequestHandler.DEVELOPER_NAME
     );
 
@@ -38,15 +38,5 @@ public with sharing class FulfillmentRequestHandler {
       notification.setSenderId(f.OwnerId);
       notification.send(recipientIds);
     }
-  }
-
-  private static Id getCustomNotificationByDeveloperName(String developerName) {
-    Map<String, Id> developerNameToCustomNotificationMap = Utils.getDeveloperNameToCustomNotificationMap();
-
-    Id customNotificationId = developerNameToCustomNotificationMap.get(
-      FulfillmentRequestHandler.DEVELOPER_NAME
-    );
-
-    return customNotificationId;
   }
 }
