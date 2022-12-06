@@ -1,5 +1,5 @@
 public with sharing class FulfillmentRequestHandler {
-  private static final String DEVELOPER_NAME = 'Fulfillment_Requested';
+  private static final String FULFILLMENT_REQUESTED_DEVELOPER_NAME = 'Fulfillment_Requested';
   private static final String REGIONAL_MANAGER_ROLE = 'Regional Manager';
   private static final String SALES_MANAGER_ROLE = 'Sales Manager';
 
@@ -7,7 +7,7 @@ public with sharing class FulfillmentRequestHandler {
     List<Fulfillment_Request__c> lstFulfillmentRequest
   ) {
     Id customNotificationId = Utils.getCustomNotificationByDeveloperName(
-      FulfillmentRequestHandler.DEVELOPER_NAME
+      FulfillmentRequestHandler.FULFILLMENT_REQUESTED_DEVELOPER_NAME
     );
 
     if (customNotificationId == null) {
