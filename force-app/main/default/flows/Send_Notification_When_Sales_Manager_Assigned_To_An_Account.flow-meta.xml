@@ -58,7 +58,8 @@
             <assignToReference>varSalesManagers</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>$Record.Sales_ManagerId__c</elementReference>
+                <elementReference
+        >$Record.Assigned_Sales_Manager__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -144,14 +145,14 @@
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Sales_ManagerId__c</field>
+            <field>Assigned_Sales_Manager__c</field>
             <operator>IsChanged</operator>
             <value>
                 <booleanValue>true</booleanValue>
             </value>
         </filters>
         <filters>
-            <field>Sales_ManagerId__c</field>
+            <field>Assigned_Sales_Manager__c</field>
             <operator>IsNull</operator>
             <value>
                 <booleanValue>false</booleanValue>
