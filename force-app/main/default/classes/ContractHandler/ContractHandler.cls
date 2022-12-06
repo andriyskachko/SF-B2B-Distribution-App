@@ -1,12 +1,12 @@
 public with sharing class ContractHandler {
-  private static final String DEVELOPER_NAME = 'Contract_Is_Created';
-  private static final String REGIONAL_MANAGER_ROLE = 'Regional Manager';
+  private final String DEVELOPER_NAME = 'Contract_Is_Created';
+  private final String REGIONAL_MANAGER_ROLE = 'Regional Manager';
 
-  private static boolean isApprovalRequired(Decimal amount) {
+  private boolean isApprovalRequired(Decimal amount) {
     return amount >= 5000;
   }
 
-  private static void sendContractIsCreatedNotification(
+  private void sendContractIsCreatedNotification(
     Contract contract,
     Id customNotificationTypeId,
     Set<String> regionalManagerIds
@@ -27,7 +27,7 @@ public with sharing class ContractHandler {
       contract.SourceOpportunity.Account.Assigned_Sales_Manager__c
     );
 
-    if (ContractHandler.isApprovalRequired(contract.SourceOpportunity.Amount)) {
+    if (isApprovalRequired(contract.SourceOpportunity.Amount)) {
       recipientIds.addAll(regionalManagerIds);
     }
 
@@ -38,7 +38,7 @@ public with sharing class ContractHandler {
     List<Contract> lstTriggerContract
   ) {
     Id customNotificationTypeId = Utils.getCustomNotificationByDeveloperName(
-      ContractHandler.DEVELOPER_NAME
+      DEVELOPER_NAME
     );
 
     if (customNotificationTypeId == null) {
@@ -60,13 +60,13 @@ public with sharing class ContractHandler {
     ];
 
     Map<Id, Set<String>> regionToUsersMap = Utils.getRegionToUsersMapByRole(
-      ContractHandler.REGIONAL_MANAGER_ROLE
+      REGIONAL_MANAGER_ROLE
     );
 
     for (Contract c : lstContract) {
       Id regionId = c.SourceOpportunity.Account.Region__c;
       Set<String> regionalManagerIds = regionToUsersMap.get(regionId);
-      ContractHandler.sendContractIsCreatedNotification(
+      sendContractIsCreatedNotification(
         c,
         customNotificationTypeId,
         regionalManagerIds

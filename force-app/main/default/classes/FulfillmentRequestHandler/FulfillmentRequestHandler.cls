@@ -1,13 +1,13 @@
 public with sharing class FulfillmentRequestHandler {
-  private static final String FULFILLMENT_REQUESTED_DEVELOPER_NAME = 'Fulfillment_Requested';
-  private static final String REGIONAL_MANAGER_ROLE = 'Regional Manager';
-  private static final String SALES_MANAGER_ROLE = 'Sales Manager';
+  private final String FULFILLMENT_REQUESTED_DEVELOPER_NAME = 'Fulfillment_Requested';
+  private final String REGIONAL_MANAGER_ROLE = 'Regional Manager';
+  private final String SALES_MANAGER_ROLE = 'Sales Manager';
 
   public static void sendFulfillmentRequestedNotificationToRegionalManagers(
     List<Fulfillment_Request__c> lstFulfillmentRequest
   ) {
     Id customNotificationId = Utils.getCustomNotificationByDeveloperName(
-      FulfillmentRequestHandler.FULFILLMENT_REQUESTED_DEVELOPER_NAME
+      FULFILLMENT_REQUESTED_DEVELOPER_NAME
     );
 
     if (customNotificationId == null) {
@@ -15,7 +15,7 @@ public with sharing class FulfillmentRequestHandler {
     }
 
     Map<Id, Set<String>> regionToUsersMap = Utils.getRegionToUsersMapByRole(
-      FulfillmentRequestHandler.REGIONAL_MANAGER_ROLE
+      REGIONAL_MANAGER_ROLE
     );
 
     Map<Id, Id> locationToWarehouseMap = Utils.getLocationToWarehouseMap();

@@ -1,11 +1,8 @@
 public with sharing class NotificationReminder {
-  // private static final Integer SALES_MANAGER_NOTIFICATION_WEEKS = 3;
-  // private static final Integer REGIONAL_MANAGER_NOTIFICATION_MONTHS = 1;
-  private static final String REGIONAL_MANAGER_ROLE = 'Regional Manager';
+  private final String REGIONAL_MANAGER_ROLE = 'Regional Manager';
+  private final String DEVELOPER_NAME = 'Contact_Account_Reminder_Notification';
 
-  private static final String DEVELOPER_NAME = 'Contact_Account_Reminder_Notification';
-
-  private static void sendAccountReminderToSalesManager(
+  private void sendAccountReminderToSalesManager(
     Account acct,
     Id customNotificationId
   ) {
@@ -22,7 +19,7 @@ public with sharing class NotificationReminder {
     notification.send(recipientIds);
   }
 
-  private static void sendAccountReminderToRegionalManager(
+  private void sendAccountReminderToRegionalManager(
     Account acct,
     Id customNotificationId,
     Set<String> regionalManagerIds
@@ -42,7 +39,7 @@ public with sharing class NotificationReminder {
 
   public static void sendAccountReminderToSalesManagers() {
     Id customNotificationId = Utils.getCustomNotificationByDeveloperName(
-      NotificationReminder.DEVELOPER_NAME
+      DEVELOPER_NAME
     );
 
     List<Account> lstAccount = [
@@ -56,16 +53,13 @@ public with sharing class NotificationReminder {
     ];
 
     for (Account a : lstAccount) {
-      NotificationReminder.sendAccountReminderToSalesManager(
-        a,
-        customNotificationId
-      );
+      sendAccountReminderToSalesManager(a, customNotificationId);
     }
   }
 
   public static void sendAccountReminderToRegionalManagers() {
     Id customNotificationId = Utils.getCustomNotificationByDeveloperName(
-      NotificationReminder.DEVELOPER_NAME
+      DEVELOPER_NAME
     );
 
     List<Account> lstAccount = [
@@ -79,13 +73,13 @@ public with sharing class NotificationReminder {
     ];
 
     Map<Id, Set<String>> regionToUsersMap = Utils.getRegionToUsersMapByRole(
-      NotificationReminder.REGIONAL_MANAGER_ROLE
+      REGIONAL_MANAGER_ROLE
     );
 
     for (Account a : lstAccount) {
       Id regionId = a.Region__c;
       Set<String> regionalManagerIds = regionToUsersMap.get(regionId);
-      NotificationReminder.sendAccountReminderToRegionalManager(
+      sendAccountReminderToRegionalManager(
         a,
         customNotificationId,
         regionalManagerIds
