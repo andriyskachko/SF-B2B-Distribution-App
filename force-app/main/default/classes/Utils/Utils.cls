@@ -1,4 +1,8 @@
 public with sharing class Utils {
+  public static String getObjectURL(String id) {
+    return URL.getSalesforceBaseUrl().toExternalForm() + '/' + a.Id;
+  }
+
   public static Map<String, Id> getDeveloperNameToCustomNotificationMap() {
     Map<String, Id> mapCustomNotificationTypes = new Map<String, Id>();
     List<CustomNotificationType> lstCustomNotificationType = [

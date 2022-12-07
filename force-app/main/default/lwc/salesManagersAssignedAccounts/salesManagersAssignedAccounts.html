@@ -1,0 +1,56 @@
+<template>
+  <lightning-card
+    variant="narrow"
+    icon-name="standard:customers"
+    title="Assigned Accounts"
+    class="slds-p-around_xx-small"
+  >
+    <div class="slds-card__body slds-card__body_inner">
+      <div class="slds-p-top_small">
+        <lightning-input
+          type="search"
+          label="Search Accounts"
+          onchange={handleSearch}
+        ></lightning-input>
+        <lightning-datatable
+          if:true={isData}
+          key-field="id"
+          data={data}
+          columns={columns}
+          default-sort-direction={defaultSortDirection}
+          sorted-direction={sortDirection}
+          sorted-by={sortedBy}
+          onsort={handleSort}
+        ></lightning-datatable>
+      </div>
+    </div>
+    <template if:false={isData}>
+      <template if:true={loading}>
+        <lightning-dynamic-icon
+          type="ellie"
+          alternative-text="Data is loading."
+          option="3"
+        >
+        </lightning-dynamic-icon
+        >Loading...
+      </template>
+
+      <template if:false={loading}>
+        <div
+          class="slds-illustration slds-illustration_large slds-p-top_large"
+          aria-hidden="true"
+        >
+          <img
+            src="/projRes/ui-home-private/emptyStates/noEvents.svg"
+            class="slds-illustration__svg"
+          />
+          <div class="slds-text-color_weak">
+            <h3 class="slds-text-heading_medium">No Assigned Accounts yet.</h3>
+          </div>
+        </div>
+      </template>
+    </template>
+
+    ></lightning-card
+  >
+</template>
