@@ -19,8 +19,8 @@ public with sharing class Territory2Handler {
     for (Territory2 t : lstTerritory2) {
       Territory__c territory = new Territory__c();
       territory.Name = t.Name;
-      territory.Label = t.Territory2Type.MasterLabel;
-      territory.Territory2Id = t.Id;
+      territory.Label__c = t.Territory2Type.MasterLabel;
+      territory.Territory2Id__c = t.Id;
       lstCustomTerritoryObjToInsert.add(territory);
     }
 
