@@ -1,8 +1,8 @@
 public with sharing class NotificationReminder {
-  private final String REGIONAL_MANAGER_ROLE = 'Regional Manager';
-  private final String DEVELOPER_NAME = 'Contact_Account_Reminder_Notification';
+  private static final String REGIONAL_MANAGER_ROLE = 'Regional Manager';
+  private static final String DEVELOPER_NAME = 'Contact_Account_Reminder_Notification';
 
-  private void sendAccountReminderToSalesManager(
+  private static void sendAccountReminderToSalesManager(
     Account acct,
     Id customNotificationId
   ) {
@@ -19,7 +19,7 @@ public with sharing class NotificationReminder {
     notification.send(recipientIds);
   }
 
-  private void sendAccountReminderToRegionalManager(
+  private static void sendAccountReminderToRegionalManager(
     Account acct,
     Id customNotificationId,
     Set<String> regionalManagerIds
@@ -39,7 +39,7 @@ public with sharing class NotificationReminder {
 
   public static void sendAccountReminderToSalesManagers() {
     Id customNotificationId = Utils.getCustomNotificationByDeveloperName(
-      DEVELOPER_NAME
+      NotificationReminder.DEVELOPER_NAME
     );
 
     List<Account> lstAccount = [
@@ -53,7 +53,10 @@ public with sharing class NotificationReminder {
     ];
 
     for (Account a : lstAccount) {
-      sendAccountReminderToSalesManager(a, customNotificationId);
+      NotificationReminder.sendAccountReminderToSalesManager(
+        a,
+        customNotificationId
+      );
     }
   }
 
@@ -73,13 +76,13 @@ public with sharing class NotificationReminder {
     ];
 
     Map<Id, Set<String>> regionToUsersMap = Utils.getRegionToUsersMapByRole(
-      REGIONAL_MANAGER_ROLE
+      NotificationReminder.REGIONAL_MANAGER_ROLE
     );
 
     for (Account a : lstAccount) {
       Id regionId = a.Region__c;
       Set<String> regionalManagerIds = regionToUsersMap.get(regionId);
-      sendAccountReminderToRegionalManager(
+      NotificationReminder.sendAccountReminderToRegionalManager(
         a,
         customNotificationId,
         regionalManagerIds

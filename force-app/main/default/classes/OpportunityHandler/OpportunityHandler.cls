@@ -1,7 +1,7 @@
 public with sharing class OpportunityHandler {
-  private final String NEW_OPPORTUNITY_DEVELOPER_NAME = 'New_Opportunity';
+  private static final String NEW_OPPORTUNITY_DEVELOPER_NAME = 'New_Opportunity';
 
-  private void sendNotificationToAssignedSalesManager(
+  private static void sendNotificationToAssignedSalesManager(
     Opportunity opp,
     Id customNotificationTypeId
   ) {
@@ -27,7 +27,7 @@ public with sharing class OpportunityHandler {
     ];
 
     Id customNotificationTypeId = Utils.getCustomNotificationByDeveloperName(
-      NEW_OPPORTUNITY_DEVELOPER_NAME
+      OpportunityHandler.NEW_OPPORTUNITY_DEVELOPER_NAME
     );
 
     if (customNotificationTypeId == null) {
@@ -35,7 +35,10 @@ public with sharing class OpportunityHandler {
     }
 
     for (Opportunity o : lstOpportunity) {
-      sendNotificationToAssignedSalesManager(o, customNotificationTypeId);
+      OpportunityHandler.sendNotificationToAssignedSalesManager(
+        o,
+        customNotificationTypeId
+      );
     }
   }
 }

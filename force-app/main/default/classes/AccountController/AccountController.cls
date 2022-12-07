@@ -6,7 +6,7 @@ public with sharing class AccountController {
     for (Account a : [
       SELECT Id, Name, LastActivityDate
       FROM Account
-      WHERE Sales_Manager__c = :userId
+      WHERE Assigned_Sales_Manager__c = :userId
       WITH SECURITY_ENFORCED
       LIMIT 5000
     ]) {
@@ -18,6 +18,6 @@ public with sharing class AccountController {
       lstAssignedAccounts.add(acct);
     }
 
-    return lstAcct;
+    return lstAssignedAccounts;
   }
 }

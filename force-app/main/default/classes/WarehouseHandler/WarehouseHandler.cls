@@ -1,5 +1,5 @@
 public with sharing class WarehouseHandler {
-  private Warehouse__c updateWarehouseLocationId(
+  private static Warehouse__c updateWarehouseLocationId(
     Id warehouseId,
     Id locationId
   ) {
@@ -35,7 +35,7 @@ public with sharing class WarehouseHandler {
 
     for (Id warehouseId : mapWarehouseToLocation.keySet()) {
       Schema.Location location = mapWarehouseToLocation.get(warehouseId);
-      Warehouse__c updatedWarehouse = updateWarehouseLocationId(
+      Warehouse__c updatedWarehouse = WarehouseHandler.updateWarehouseLocationId(
         warehouseId,
         location.Id
       );
