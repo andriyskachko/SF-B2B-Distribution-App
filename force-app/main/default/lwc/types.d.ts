@@ -21,3 +21,9 @@ interface Account {
   url: string;
   lastActivityDate: Date;
 }
+
+interface ModalProp {
+  fieldName: string;
+  value: string;
+  displayValue?: string;
+}
