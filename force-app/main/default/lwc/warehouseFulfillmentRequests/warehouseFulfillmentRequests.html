@@ -1,0 +1,66 @@
+<template>
+  <lightning-card
+    variant="base"
+    icon-name="standard:product_request"
+    title={cardTitle}
+  >
+    <div slot="actions" if:true={warehouseId}>
+      <lightning-button
+        label="New Fulfillment Request"
+        onclick={handleAddFullfilmentRequest}
+        variant="neutral"
+      ></lightning-button>
+    </div>
+    <template if:true={warehouseId}>
+      <div
+        if:true={requestsCount}
+        class="slds-card__body slds-card__body_inner"
+      >
+        <span class="slds-form-element__static slds-p-bottom_small"
+          ><a target="_blank" href={latestFulfilmentRequest.requestUrl}
+            >{latestFulfillmentRequest.name}</a
+          ></span
+        >
+        <lightning-record-form
+          record-id={latestFulfillmentRequest.id}
+          object-api-name={objectApiName}
+          fields={recordPageFields}
+        ></lightning-record-form>
+      </div>
+
+      <div
+        if:false={requestsCount}
+        class="slds-illustration slds-illustration_small"
+        aria-hidden="true"
+      >
+        <img
+          src="/projRes/ui-home-private/emptyStates/noTasks.svg"
+          class="slds-illustration__svg"
+          alt="No fulfilment requests"
+        />
+        <div class="slds-text-color_weak">
+          <p class="slds-text-body_regular">No new fulfillment requests.</p>
+        </div>
+      </div>
+      <lightning-button
+        slot="footer"
+        variant="base"
+        label="View All"
+        title="View All"
+        onclick={handleViewAll}
+      ></lightning-button>
+    </template>
+    <template if:false={warehouseId}>
+      <div class="slds-illustration slds-illustration_small" aria-hidden="true">
+        <img
+          src="/img/chatter/Desert.svg"
+          class="slds-illustration__svg"
+          alt="No fulfilment requests"
+        />
+        <div class="slds-text-color_weak">
+          <p class="slds-text-body_regular">No Warehouses in your Region.</p>
+        </div>
+      </div>
+    </template>
+  </lightning-card>
+</template>
