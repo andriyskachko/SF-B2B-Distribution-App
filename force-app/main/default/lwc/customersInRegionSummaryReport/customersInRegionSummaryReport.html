@@ -1,0 +1,40 @@
+<template>
+  <lightning-card
+    variant="narrow"
+    icon-name="standard:customers"
+    title="Accounts Summary Report"
+    class="slds-p-around_xx-small"
+  >
+    <div slot="actions">
+      <lightning-button
+        label="Generate PDF Report"
+        title="Generate PDF Report"
+        onclick={handleGeneratePDFReport}
+        class="slds-m-left_x-small"
+      ></lightning-button>
+    </div>
+    <div class="slds-p-around_medium">
+      <lightning-combobox
+        name="Sales Manager"
+        label="Sales Manager"
+        options={salesManagersOptions}
+        placeholder="Select a Sales Manager"
+      ></lightning-combobox>
+      <lightning-combobox
+        name="Worked With Time Frame"
+        label="Worked With Time Frame"
+        value={closedDateValue}
+        options={options}
+        onchange={handleClosedDateValueChange}
+        placeholder="Select a Time Frame"
+      ></lightning-combobox>
+    </div>
+    <div class="slds-card__body">
+      <lightning-datatable
+        data={data}
+        columns={columns}
+        key-field="id"
+      ></lightning-datatable>
+    </div>
+  </lightning-card>
+</template>

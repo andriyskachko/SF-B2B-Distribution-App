@@ -76,4 +76,18 @@ public with sharing class Utils {
 
     return customNotificationId;
   }
+
+  public static String getStringValue(Object obj) {
+    if (obj == null) {
+      return '';
+    }
+    return String.valueOf(obj);
+  }
+
+  public static Integer getIntegerValue(Object obj) {
+    if (obj == null) {
+      return 0;
+    }
+    return Integer.valueOf(Utils.getStringValue(obj));
+  }
 }
