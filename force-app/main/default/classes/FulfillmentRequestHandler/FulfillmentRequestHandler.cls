@@ -27,7 +27,11 @@ public with sharing class FulfillmentRequestHandler {
       notification.setNotificationTypeId(customNotificationId);
       notification.setTargetId(f.Id);
       notification.setSenderId(f.OwnerId);
-      notification.send(new Set<String>{ f.Assigned_To__c });
+
+      Set<String> recipientIds = new Set<String>();
+      recipientIds.add(f.Assigned_To__c);
+
+      notification.send(recipientIds);
     }
   }
 }

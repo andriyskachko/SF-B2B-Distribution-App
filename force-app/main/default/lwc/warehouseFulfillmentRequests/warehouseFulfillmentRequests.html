@@ -17,12 +17,12 @@
         class="slds-card__body slds-card__body_inner"
       >
         <span class="slds-form-element__static slds-p-bottom_small"
-          ><a target="_blank" href={latestFulfilmentRequest.requestUrl}
-            >{latestFulfillmentRequest.name}</a
+          ><a target="_blank" href={latestFulfillmentRequestUrl}
+            >Latest Request</a
           ></span
         >
         <lightning-record-form
-          record-id={latestFulfillmentRequest.id}
+          record-id={recordId}
           object-api-name={objectApiName}
           fields={recordPageFields}
         ></lightning-record-form>

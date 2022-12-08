@@ -5,38 +5,41 @@ global class OppTerrAssignDefaultLogicFilter implements TerritoryMgmt.Opportunit
   global Map<Id, Id> getOpportunityTerritory2Assignments(
     List<Id> opportunityIds
   ) {
-    Map<Id, Id> OppIdTerritoryIdResult = new Map<Id, Id>();
+    Map<Id, Id> oppIdTerritoryIdResult = new Map<Id, Id>();
 
     Id activeModelId = getActiveModelId();
 
-    if (activeModelId != null) {
-      List<Opportunity> opportunities = [
-        SELECT Id, AccountId, Territory2Id
-        FROM Opportunity
-        WHERE Id IN :opportunityIds
-      ];
+    if (activeModelId == null) {
+      return null;
+    }
 
-      Set<Id> accountIds = new Set<Id>();
+    List<Opportunity> opportunities = [
+      SELECT Id, AccountId, Territory2Id
+      FROM Opportunity
+      WHERE Id IN :opportunityIds
+      WITH SECURITY_ENFORCED
+    ];
 
-      for (Opportunity opp : opportunities) {
-        if (opp.AccountId != null) {
-          accountIds.add(opp.AccountId);
-        }
-      }
+    Set<Id> accountIds = new Set<Id>();
 
-      Map<Id, Id> accountTerritory2Id = getAccountTerritory2Id(
-        activeModelId,
-        accountIds
-      );
-
-      for (Opportunity opp : opportunities) {
-        Id accountId = opp.AccountId;
-        Id territory2Id = accountTerritory2Id.get(accountId);
-        OppIdTerritoryIdResult.put(opp.Id, territory2Id);
+    for (Opportunity opp : opportunities) {
+      if (opp.AccountId != null) {
+        accountIds.add(opp.AccountId);
       }
     }
 
-    return OppIdTerritoryIdResult;
+    Map<Id, Id> accountTerritory2Id = getAccountTerritory2Id(
+      activeModelId,
+      accountIds
+    );
+
+    for (Opportunity opp : opportunities) {
+      Id accountId = opp.AccountId;
+      Id territory2Id = accountTerritory2Id.get(accountId);
+      oppIdTerritoryIdResult.put(opp.Id, territory2Id);
+    }
+
+    return oppIdTerritoryIdResult;
   }
 
   private Map<Id, Id> getAccountTerritory2Id(
@@ -49,7 +52,7 @@ global class OppTerrAssignDefaultLogicFilter implements TerritoryMgmt.Opportunit
       SELECT ObjectId, Territory2Id, Territory2.Territory2Type.Priority
       FROM ObjectTerritory2Association
       WHERE
-        objectId IN :accountIds
+        ObjectId IN :accountIds
         AND Territory2.Territory2ModelId = :activeModelId
       WITH SECURITY_ENFORCED
     ]) {

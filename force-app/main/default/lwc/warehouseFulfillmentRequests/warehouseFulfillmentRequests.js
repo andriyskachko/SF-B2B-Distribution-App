@@ -14,7 +14,6 @@ import ASSIGNED_TO_FIELD from "@salesforce/schema/Fulfillment_Request__c.Assigne
 import DUE_DATE_FIELD from "@salesforce/schema/Fulfillment_Request__c.Due_Date__c";
 import PRODUCT_ITEM_FIELD from "@salesforce/schema/Fulfillment_Request__c.Product_Item__c";
 import LOCATION_FIELD from "@salesforce/schema/Fulfillment_Request__c.LocationId__c";
-
 import QUANTITY_REQUESTED_FIELD from "@salesforce/schema/Fulfillment_Request__c.Quantity_Requested__c";
 
 const FULLFILMENT_REQUEST_MOODAL_FIELDS = [
@@ -26,6 +25,7 @@ const FULLFILMENT_REQUEST_MOODAL_FIELDS = [
 ];
 
 const RECORD_PAGE_FIELDS = [
+  NAME_FIELD,
   ASSIGNED_TO_FIELD,
   PRODUCT_ITEM_FIELD,
   QUANTITY_REQUESTED_FIELD,
@@ -37,12 +37,14 @@ export default class WarehouseFulfillmentRequests extends LightningElement {
   recordPageFields = RECORD_PAGE_FIELDS;
   objectApiName = FULFILLMENT_REQUEST_OBJECT;
   subscriptions = [];
+  /** @type {FulfillmentRequestDTO[]} */
   requests = [];
   error;
   userId = USER_ID;
   regionalManagerId = "";
   warehouseId = "";
   locationId = "";
+  recordId = "";
 
   @wire(getUserAssociatedTerritoryRegionalManager, { userId: "$userId" })
   wiredRegionalManager({ error, data }) {
@@ -60,11 +62,9 @@ export default class WarehouseFulfillmentRequests extends LightningElement {
     if (data) {
       this.warehouseId = data;
       this.error = undefined;
-      console.log(this.warehouseId);
     } else if (error) {
       this.warehouseId = "";
       this.erorr = error;
-      console.log(this.error);
     }
   }
 
@@ -85,6 +85,7 @@ export default class WarehouseFulfillmentRequests extends LightningElement {
   wiredRequests({ error, data }) {
     if (data) {
       this.requests = data;
+      this.recordId = this.requests[0].id;
       this.error = undefined;
     } else if (error) {
       this.requests = [];
@@ -112,6 +113,7 @@ export default class WarehouseFulfillmentRequests extends LightningElement {
         message: "Record ID: " + result,
         variant: "success"
       });
+      this.recordId = result;
       this.dispatchEvent(evt);
     }
   }
@@ -127,8 +129,16 @@ export default class WarehouseFulfillmentRequests extends LightningElement {
     ];
   }
 
-  get latestFulfilmentRequest() {
-    return this.requests[0];
+  get cardTitle() {
+    return `New Fulfillment Requests (${this.requestsCount})`;
+  }
+
+  get latestFulfillmentRequestUrl() {
+    return this.requests.length ? this.requests[0].url : "";
+  }
+
+  get latestFulfillmentRequestName() {
+    return this.requests.length ? this.requests[0].name : "";
   }
 
   get requestsCount() {

@@ -54,3 +54,9 @@ interface TableHeader {
   align: string;
   padding: number;
 }
+
+interface FulfillmentRequestDTO {
+  id: string;
+  url: string;
+  name: string;
+}
