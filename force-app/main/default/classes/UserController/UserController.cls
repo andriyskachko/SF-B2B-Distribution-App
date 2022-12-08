@@ -1,5 +1,6 @@
 public with sharing class UserController {
   public static final String REGIONAL_MANAGER_ROLE = 'Regional Manager';
+  public static final String SALES_MANAGER_ROLE = 'Sales Manager';
 
   @AuraEnabled(cacheable=true)
   public static Id getUserAssociatedWarehouse(String userId) {
@@ -53,5 +54,17 @@ public with sharing class UserController {
     }
 
     return null;
+  }
+
+  @AuraEnabled(cacheable=true)
+  public static List<UserDTO> getSalesManagersInUsersTerritory(String userId) {
+    Id territory2Id = UserController.getUserAssociatedTerritory(userId);
+
+    List<UserDTO> salesManagersInTerritory = Territory2Controller.getUsersInTerritoryByRole(
+      territory2Id,
+      UserController.SALES_MANAGER_ROLE
+    );
+
+    return salesManagersInTerritory;
   }
 }
