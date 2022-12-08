@@ -45,3 +45,12 @@ interface OpportunitiesSummaryDTO {
   totalQuantity: number;
   totalAmount: number;
 }
+
+interface TableHeader {
+  id: string;
+  name: string;
+  prompt: string;
+  width: number;
+  align: string;
+  padding: number;
+}

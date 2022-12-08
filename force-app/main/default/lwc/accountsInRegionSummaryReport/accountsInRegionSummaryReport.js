@@ -1,7 +1,21 @@
 import { LightningElement, wire } from "lwc";
+import { loadScript } from "lightning/platformResourceLoader";
+import jspdf from "@salesforce/resourceUrl/jsPDF";
 import getSalesManagersInUsersTerritory from "@salesforce/apex/UserController.getSalesManagersInUsersTerritory";
 import getOppsSummaryBySalesManagersAndPeriod from "@salesforce/apex/OpportunityController.getOppsSummaryBySalesManagersAndPeriod";
 import ID from "@salesforce/user/Id";
+
+function getCurrenDateTime() {
+  const dateOptions = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  };
+  const today = new Date();
+  const currentDate = today.toLocaleDateString("en-US", dateOptions);
+  return currentDate;
+}
 
 const ALL = { value: "ALL", label: "All" };
 const LAST_WEEK = { value: "LAST_WEEK", label: "Last week" };
@@ -14,7 +28,7 @@ const OPTIONS = [ALL, LAST_WEEK, LAST_MONTH, LAST_YEAR];
 /** @type {DatatableColumn[]} */
 const COLUMNS = [
   {
-    label: "Customer",
+    label: "Account",
     fieldName: "accountUrl",
     type: "url",
     typeAttributes: { label: { fieldName: "accountName" } },
@@ -33,15 +47,58 @@ const COLUMNS = [
 ];
 
 export default class CustomersInRegionSummaryReport extends LightningElement {
+  isStaticResourceLoaded = false;
   columns = COLUMNS;
   options = OPTIONS;
   userId = ID;
   defaultClosedDateValue = ALL.value;
   closedDateValue = this.dateClosedDateDefaultValue;
+  /** @type {OpportunitiesSummaryDTO[]} */
   data = [];
   /** @type {UserDTO[]} */
   salesManagers = [];
   selectedSalesManager = "";
+  headers = this.createHeaders(this.columns.map((c) => c.fieldName));
+
+  renderedCallback() {
+    if (this.isStaticResourceLoaded) return;
+    Promise.all([loadScript(this, jspdf)]).then(() => {
+      this.isStaticResourceLoaded = true;
+    });
+  }
+
+  generatePDF() {
+    const { jsPDF } = window.jspdf;
+    const document = new jsPDF();
+    const currentDate = getCurrenDateTime();
+    const documentText = [
+      `Accounts Summary Report ${currentDate}`,
+      `Sales Manager: ${this.selectedSalesManagerName}`,
+      `Time Frame: ${this.selectedTimeFrameName}`
+    ];
+    document.text(documentText, 20, 20);
+    document.table(20, 40, this.data, this.headers, { autosize: true });
+    document.save(
+      `Accounts_Summary_Report_${this.selectedSalesManager}_${this.selectedTimeFrameName}.pdf`
+    );
+  }
+
+  /**
+   * @param {string[]} headers
+   * @returns {TableHeader[]}
+   */
+  createHeaders(headers) {
+    return headers.map((header) => {
+      return {
+        id: header,
+        name: header,
+        prompt: header,
+        width: 65,
+        align: "center",
+        padding: 0
+      };
+    });
+  }
 
   @wire(getSalesManagersInUsersTerritory, { userId: "$userId" })
   wiredSalesManagers({ error, data }) {
@@ -75,11 +132,33 @@ export default class CustomersInRegionSummaryReport extends LightningElement {
   }
 
   handleGeneratePDFReport() {
-    console.log("report created");
+    this.generatePDF();
   }
 
   get salesManagersIds() {
     return this.salesManagers.map((s) => s.id);
+  }
+
+  get selectedSalesManagerName() {
+    const salesManager = this.salesManagers.find(
+      (s) => s.id === this.selectedSalesManager
+    );
+    return salesManager ? salesManager.name : "All";
+  }
+
+  get selectedTimeFrameName() {
+    switch (this.closedDateValue) {
+      case "ALL":
+        return "All";
+      case "LAST_WEEK":
+        return "Last Week";
+      case "LAST_MONTH":
+        return "Last Month";
+      case "LAST_YEAR":
+        return "Last Year";
+      default:
+        return "All";
+    }
   }
 
   /** @type {Option[]} */
