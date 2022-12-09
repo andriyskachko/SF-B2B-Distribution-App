@@ -21,7 +21,7 @@ public with sharing class LocationController {
       LIMIT 5000
     ];
 
-    if (location.PrudctItems.isEmpty()) {
+    if (location.ProductItems.isEmpty()) {
       return null;
     }
 
