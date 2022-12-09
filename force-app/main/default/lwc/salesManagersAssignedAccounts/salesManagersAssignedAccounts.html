@@ -10,6 +10,7 @@
         <lightning-input
           type="search"
           label="Search Accounts"
+          value={searchKeyword}
           onchange={handleSearch}
         ></lightning-input>
         <lightning-datatable
@@ -25,7 +26,7 @@
       </div>
     </div>
     <template if:false={isData}>
-      <template if:true={loading}>
+      <template if:true={isLoading}>
         <lightning-dynamic-icon
           type="ellie"
           alternative-text="Data is loading."
@@ -35,7 +36,7 @@
         >Loading...
       </template>
 
-      <template if:false={loading}>
+      <template if:false={isLoading}>
         <div
           class="slds-illustration slds-illustration_large slds-p-top_large"
           aria-hidden="true"

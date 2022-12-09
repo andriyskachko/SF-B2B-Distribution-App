@@ -13,9 +13,9 @@ import ID from "@salesforce/user/Id";
 const COLUMNS = [
   {
     label: "Account",
-    fieldName: "accountURL",
+    fieldName: "url",
     type: "url",
-    typeAttributes: { label: { fieldName: "accountName" } },
+    typeAttributes: { label: { fieldName: "name" } },
     target: "_blank",
     sortable: true
   },
@@ -51,7 +51,6 @@ export default class SalesManagersAssignedAccounts extends LightningElement {
     if (data) {
       this.assignedAccounts = data;
       this.error = undefined;
-      this.publishPayload();
     } else if (error) {
       this.error = error;
       this.assignedAccounts = [];
@@ -77,14 +76,13 @@ export default class SalesManagersAssignedAccounts extends LightningElement {
 
   handleSearch(event) {
     this.isLoading = true;
-    this.searchKeyword = event.detail.value.strip().toLowerCase();
+    this.searchKeyword = event.detail.value.trim();
     this.filteredAccounts = this._assignedAccounts.filter((account) => {
       const { name } = account;
-      const regex = new RegExp(this.searchString);
-      return regex.test(name);
+      const regex = new RegExp(this.searchKeyword.toLowerCase());
+      return regex.test(name.toLowerCase());
     });
     this.isLoading = false;
-    this.publishPayload();
   }
 
   handleSort(event) {
