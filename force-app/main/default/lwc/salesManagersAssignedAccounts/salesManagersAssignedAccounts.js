@@ -109,6 +109,6 @@ export default class SalesManagersAssignedAccounts extends LightningElement {
       b = key(b) ? key(b) : "";
       return isReverse * ((a > b) - (b > a));
     });
-    this._filteredAccounts = parsedData;
+    this.filteredAccounts = parsedData;
   }
 }
