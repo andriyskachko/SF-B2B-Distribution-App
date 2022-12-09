@@ -17,7 +17,7 @@ function getCurrenDateTime() {
   return currentDate;
 }
 
-const ALL = { value: "ALL", label: "All" };
+const ALL = { value: "THIS_YEAR", label: "All" };
 const LAST_WEEK = { value: "LAST_WEEK", label: "Last week" };
 const LAST_MONTH = { value: "LAST_MONTH", label: "Last month" };
 const LAST_YEAR = { value: "LAST_YEAR", label: "Last year" };
@@ -56,7 +56,8 @@ export default class CustomersInRegionSummaryReport extends LightningElement {
   /** @type {OpportunitiesSummaryDTO[]} */
   data = [];
   /** @type {UserDTO[]} */
-  salesManagers = [];
+  _salesManagers = [];
+  salesManagersIds = [];
   selectedSalesManager = "";
   headers = this.createHeaders(this.columns.map((c) => c.fieldName));
 
@@ -119,11 +120,9 @@ export default class CustomersInRegionSummaryReport extends LightningElement {
     if (data) {
       this.data = data;
       this.error = undefined;
-      console.log(data);
     } else if (error) {
       this.data = [];
       this.error = error;
-      console.log(error);
     }
   }
 
@@ -135,8 +134,14 @@ export default class CustomersInRegionSummaryReport extends LightningElement {
     this.generatePDF();
   }
 
-  get salesManagersIds() {
-    return this.salesManagers.map((s) => s.id);
+  /** @param {UserDTO[]} value*/
+  set salesManagers(value) {
+    this._salesManagers = value;
+    this.salesManagersIds = value.map((s) => s.id);
+  }
+
+  get salesManagers() {
+    return this._salesManagers;
   }
 
   get selectedSalesManagerName() {
@@ -148,7 +153,7 @@ export default class CustomersInRegionSummaryReport extends LightningElement {
 
   get selectedTimeFrameName() {
     switch (this.closedDateValue) {
-      case "ALL":
+      case "THIS_YEAR":
         return "All";
       case "LAST_WEEK":
         return "Last Week";
@@ -170,64 +175,4 @@ export default class CustomersInRegionSummaryReport extends LightningElement {
       };
     });
   }
-
-  //   @wire(getOpportunitiesSummary, {
-  //     closeDateFilter: "$closeDateFilter",
-  //     salesManagerId: "$salesManagerId"
-  //   })
-  //   wiredSummaryData({ error, data }) {
-  //     if (data) {
-  //       this.summaryData = data;
-  //       this.wiredSummaryError = undefined;
-  //     } else if (error) {
-  //       this.summaryData = [];
-  //       this.wiredSummaryError = error;
-  //     }
-  //   }
-
-  //   @wire(getSalesManagersForOpportunityAccounts, {
-  //     closeDateFilter: "$closeDateFilter",
-  //     salesManagerId: "$salesManagerId"
-  //   })
-  //   wiredSalesManagers({ error, data }) {
-  //     if (data) {
-  //       this.salesManagers = data;
-  //       this.error = undefined;
-  //     } else if (error) {
-  //       this.salesManagers = [];
-  //       this.error = error;
-  //     }
-  //   }
-
-  //   handleSalesManagerChange(event) {
-  //     const salesManagerId = event.detail.value;
-  //     this.salesManagerId = salesManagerId;
-  //   }
-
-  //   handleTimeFrameChange(event) {
-  //     const timeFrame = event.detail.value;
-  //     this.closeDateFilter = timeFrame;
-  //   }
-
-  //   handleCreateReport() {
-  //     // const datatable = this.template.querySelector('lightning-datatable');
-  //     this.generatePdf();
-  //   }
-
-  //   generatePdf() {
-  //     const doc = new jsPDF({
-  //       encryption: {
-  //         userPassword: "user",
-  //         ownerPassword: "owner",
-  //         userPermissions: ["print", "modify", "copy", "annot-forms"]
-  //         // try changing the user permissions granted
-  //       }
-  //     });
-
-  //     doc.text("This is test pdf", 20, 20);
-  //     doc.table(30, 30, this.summaryDataJSON, this.headers, { autosize: true });
-  //     doc.save("demo.pdf");
-
-  //     console.log(doc);
-  //   }
 }
