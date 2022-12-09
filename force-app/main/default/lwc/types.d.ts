@@ -60,3 +60,14 @@ interface FulfillmentRequestDTO {
   url: string;
   name: string;
 }
+
+interface ProductItemDTO {
+  productItemId: string;
+  productItemUrl: string;
+  productId: string;
+  productName: string;
+  productUrl: string;
+  productItemNumber: string;
+  productItemQuantity: number;
+  productItemSerialNumber: string;
+}

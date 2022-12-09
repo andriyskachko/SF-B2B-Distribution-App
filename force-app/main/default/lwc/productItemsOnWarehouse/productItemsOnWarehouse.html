@@ -1,0 +1,70 @@
+<template>
+  <lightning-card
+    variant="base"
+    icon-name="standard:product_item"
+    title="Product Items"
+  >
+    <template if:true={warehouseId}>
+      <div slot="actions">
+        <lightning-button
+          label="New"
+          onclick={handleAddProductItem}
+          variant="neutral"
+        ></lightning-button>
+      </div>
+      <div class="slds-card__body slds-card__body_inner">
+        <lightning-input
+          if:true={areProductItems}
+          class="slds-p-bottom_small"
+          type="search"
+          label="Search Product Items"
+          onchange={handleSearch}
+        ></lightning-input>
+        <lightning-datatable
+          class="slds-p-bottom-small"
+          key-field="id"
+          default-sort-direction={defaultSortDirection}
+          sorted-direction={sortDirection}
+          sorted-by={sortedBy}
+          onsort={handleSort}
+          data={data}
+          columns={columns}
+          hide-checkbox-column
+        >
+        </lightning-datatable>
+      </div>
+      <lightning-button
+        slot="footer"
+        if:true={areProductItems}
+        variant="base"
+        label="View All"
+        title="View All"
+        onclick={handleViewAll}
+      ></lightning-button>
+    </template>
+
+    <div
+      if:false={warehouseId}
+      class="slds-illustration slds-illustration_small"
+    >
+      <div class="slds-text-longform">
+        <h3 class="slds-text-heading_medium">No Product Items to show.</h3>
+        <p class="slds-text-body_regular">Please select Warehouse first.</p>
+      </div>
+    </div>
+
+    <div
+      if:false={areProductItems}
+      class="slds-illustration slds-illustration_small"
+    >
+      <div class="slds-text-longform">
+        <h3 class="slds-text-heading_medium">
+          No Product Items on the Warehouse.
+        </h3>
+        <p class="slds-text-body_regular">
+          Create or Import new Product Items.
+        </p>
+      </div>
+    </div>
+  </lightning-card>
+</template>
