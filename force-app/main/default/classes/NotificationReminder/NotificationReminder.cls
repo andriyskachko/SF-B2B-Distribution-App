@@ -47,7 +47,7 @@ public with sharing class NotificationReminder {
       FROM Account
       WHERE
         Assigned_Sales_Manager__c != NULL
-        AND LastActivityDate > N_WEEKS_AGO:3
+        AND LastActivityDate = N_WEEKS_AGO:3
       WITH SECURITY_ENFORCED
       LIMIT 5000
     ];
@@ -70,7 +70,7 @@ public with sharing class NotificationReminder {
       FROM Account
       WHERE
         Assigned_Sales_Manager__c != NULL
-        AND LastActivityDate > N_MONTHS_AGO:1
+        AND LastActivityDate = N_MONTHS_AGO:1
       WITH SECURITY_ENFORCED
       LIMIT 5000
     ];
