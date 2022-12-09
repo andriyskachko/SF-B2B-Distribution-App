@@ -6,6 +6,7 @@ import NewRecordModal from "c/newRecordModal";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import ID from "@salesforce/user/Id";
 import PRODUCT_ITEM_OBJECT from "@salesforce/schema/ProductItem";
+import LOCATION_FIELD from "@salesforce/schema/ProductItem.LocationId";
 import PRODUCT_NAME_FIELD from "@salesforce/schema/ProductItem.Product2Id";
 import QUANTITY_ON_HAND_FIELD from "@salesforce/schema/ProductItem.QuantityOnHand";
 import QUANTITY_UNIT_OF_MEASURE_FIELD from "@salesforce/schema/ProductItem.QuantityUnitOfMeasure.";
@@ -13,8 +14,9 @@ import SERIAL_NUMBER_FIELD from "@salesforce/schema/ProductItem.SerialNumber";
 
 const FIELDS = [
   PRODUCT_NAME_FIELD,
-  SERIAL_NUMBER_FIELD,
   QUANTITY_ON_HAND_FIELD,
+  SERIAL_NUMBER_FIELD,
+  // LOCATION_FIELD,
   QUANTITY_UNIT_OF_MEASURE_FIELD
 ];
 
@@ -132,7 +134,7 @@ export default class ProductItemsOnWarehouse extends LightningElement {
       objectName: "Product Item",
       objectApiName: this.objectApiName,
       fields: this.fields,
-      props: this.props
+      props: this.productItemModalProps
     });
 
     if (result) {
@@ -143,6 +145,9 @@ export default class ProductItemsOnWarehouse extends LightningElement {
       });
       this.dispatchEvent(event);
     }
+    // ASK VITALIK HOW TO MANUALLY REWOKE WIRE
+    // const locationId = this.locationId;
+    // this.locationId = locationId;
   }
 
   sortData(fieldName, direction) {
@@ -155,5 +160,15 @@ export default class ProductItemsOnWarehouse extends LightningElement {
       return isReverse * ((a > b) - (b > a));
     });
     this.filteredData = parsedData;
+  }
+
+  /** @type {ModalProp[]} */
+  get productItemModalProps() {
+    return [
+      {
+        fieldName: LOCATION_FIELD.fieldApiName,
+        value: this.locationId
+      }
+    ];
   }
 }
