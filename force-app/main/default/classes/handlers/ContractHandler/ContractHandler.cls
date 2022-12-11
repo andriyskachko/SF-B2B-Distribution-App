@@ -1,6 +1,5 @@
 public with sharing class ContractHandler {
   private static final String DEVELOPER_NAME = 'Contract_Is_Created';
-  private static final String REGIONAL_MANAGER_ROLE = 'Regional Manager';
 
   private static boolean isApprovalRequired(Decimal amount) {
     return amount >= 5000;
@@ -37,7 +36,7 @@ public with sharing class ContractHandler {
   public static void sendNotificationsToSalesManagers(
     List<Contract> lstTriggerContract
   ) {
-    Id customNotificationTypeId = Utils.getCustomNotificationByDeveloperName(
+    Id customNotificationTypeId = CustomNotificationController.getCustomNotificationByDeveloperName(
       ContractHandler.DEVELOPER_NAME
     );
 
@@ -51,7 +50,7 @@ public with sharing class ContractHandler {
         OwnerId,
         SourceOpportunity.Name,
         SourceOpportunity.Account.Assigned_Sales_Manager__c,
-        SourceOpportunity.Account.Region__c,
+        SourceOpportunity.Account.Region__c, // USE ACCOUNT TERRITORY INSTEAD
         SourceOpportunity.Amount,
         Status
       FROM Contract
@@ -60,7 +59,7 @@ public with sharing class ContractHandler {
     ];
 
     Map<Id, Set<String>> regionToUsersMap = Utils.getRegionToUsersMapByRole(
-      ContractHandler.REGIONAL_MANAGER_ROLE
+      UserController.REGIONAL_MANAGER_ROLE
     );
 
     for (Contract c : lstContract) {

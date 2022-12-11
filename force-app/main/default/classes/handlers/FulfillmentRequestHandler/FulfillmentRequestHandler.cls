@@ -4,7 +4,7 @@ public with sharing class FulfillmentRequestHandler {
   public static void sendFulfillmentRequestedNotificationToRegionalManagers(
     List<Fulfillment_Request__c> lstTriggerFulfillmentRequest
   ) {
-    Id customNotificationId = Utils.getCustomNotificationByDeveloperName(
+    Id customNotificationId = CustomNotificationController.getCustomNotificationByDeveloperName(
       FulfillmentRequestHandler.FULFILLMENT_REQUESTED_DEVELOPER_NAME
     );
 

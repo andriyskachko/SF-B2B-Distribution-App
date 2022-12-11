@@ -26,7 +26,7 @@ public with sharing class OpportunityHandler {
       WITH SECURITY_ENFORCED
     ];
 
-    Id customNotificationTypeId = Utils.getCustomNotificationByDeveloperName(
+    Id customNotificationTypeId = CustomNotificationController.getCustomNotificationByDeveloperName(
       OpportunityHandler.NEW_OPPORTUNITY_DEVELOPER_NAME
     );
 

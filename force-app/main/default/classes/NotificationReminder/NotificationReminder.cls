@@ -1,5 +1,4 @@
 public with sharing class NotificationReminder {
-  private static final String REGIONAL_MANAGER_ROLE = 'Regional Manager';
   private static final String DEVELOPER_NAME = 'Contact_Account_Reminder_Notification';
 
   private static void sendAccountReminderToSalesManager(
@@ -38,7 +37,7 @@ public with sharing class NotificationReminder {
   }
 
   public static void sendAccountReminderToSalesManagers() {
-    Id customNotificationId = Utils.getCustomNotificationByDeveloperName(
+    Id customNotificationId = CustomNotificationController.getCustomNotificationByDeveloperName(
       NotificationReminder.DEVELOPER_NAME
     );
 
@@ -61,7 +60,7 @@ public with sharing class NotificationReminder {
   }
 
   public static void sendAccountReminderToRegionalManagers() {
-    Id customNotificationId = Utils.getCustomNotificationByDeveloperName(
+    Id customNotificationId = CustomNotificationController.getCustomNotificationByDeveloperName(
       DEVELOPER_NAME
     );
 
@@ -76,7 +75,7 @@ public with sharing class NotificationReminder {
     ];
 
     Map<Id, Set<String>> regionToUsersMap = Utils.getRegionToUsersMapByRole(
-      NotificationReminder.REGIONAL_MANAGER_ROLE
+      UserController.REGIONAL_MANAGER_ROLE
     );
 
     for (Account a : lstAccount) {

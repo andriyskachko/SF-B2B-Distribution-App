@@ -3,22 +3,6 @@ public with sharing class Utils {
     return URL.getSalesforceBaseUrl().toExternalForm() + '/' + id;
   }
 
-  public static Map<String, Id> getDeveloperNameToCustomNotificationMap() {
-    Map<String, Id> mapCustomNotificationTypes = new Map<String, Id>();
-    List<CustomNotificationType> lstCustomNotificationType = [
-      SELECT Id, DeveloperName
-      FROM CustomNotificationType
-      WITH SECURITY_ENFORCED
-      LIMIT 5000
-    ];
-
-    for (CustomNotificationType n : lstCustomNotificationType) {
-      mapCustomNotificationTypes.put(n.DeveloperName, n.Id);
-    }
-
-    return mapCustomNotificationTypes;
-  }
-
   public static Map<Id, Set<String>> getRegionToUsersMapByRole(String role) {
     Map<Id, Set<String>> mapRegionUsers = new Map<Id, Set<String>>();
 
@@ -65,16 +49,6 @@ public with sharing class Utils {
     }
 
     return mapLocationWarehouse;
-  }
-
-  public static Id getCustomNotificationByDeveloperName(String developerName) {
-    Map<String, Id> developerNameToCustomNotificationMap = Utils.getDeveloperNameToCustomNotificationMap();
-
-    Id customNotificationId = developerNameToCustomNotificationMap.get(
-      developerName
-    );
-
-    return customNotificationId;
   }
 
   public static String getStringValue(Object obj) {
