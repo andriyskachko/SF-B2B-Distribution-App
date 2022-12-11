@@ -1,4 +1,10 @@
 public with sharing class CustomNotificationController {
+  public static final String CONTRACT_IS_CREATED = 'Contract_Is_Created';
+  public static final String FULFILLMENT_REQUESTED = 'Fulfillment_Requested';
+  public static final String NEW_OPPORTUNITY = 'New_Opportunity';
+  public static final String WAREHOUSE_RUNNING_OUT = 'Warehouse_Running_Out';
+  public static final String CONTACT_ACCOUNT_REMINDER_NOTIFICATION = 'Contact_Account_Reminder_Notification';
+
   public static Map<String, Id> getDeveloperNameToCustomNotificationMap() {
     Map<String, Id> mapCustomNotificationTypes = new Map<String, Id>();
     List<CustomNotificationType> lstCustomNotificationType = [

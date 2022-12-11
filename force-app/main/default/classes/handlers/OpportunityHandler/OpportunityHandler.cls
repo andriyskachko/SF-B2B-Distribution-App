@@ -1,6 +1,4 @@
 public with sharing class OpportunityHandler {
-  private static final String NEW_OPPORTUNITY_DEVELOPER_NAME = 'New_Opportunity';
-
   private static void sendNotificationToAssignedSalesManager(
     Opportunity opp,
     Id customNotificationTypeId
@@ -27,7 +25,7 @@ public with sharing class OpportunityHandler {
     ];
 
     Id customNotificationTypeId = CustomNotificationController.getCustomNotificationByDeveloperName(
-      OpportunityHandler.NEW_OPPORTUNITY_DEVELOPER_NAME
+      CustomNotificationController.NEW_OPPORTUNITY
     );
 
     if (customNotificationTypeId == null) {

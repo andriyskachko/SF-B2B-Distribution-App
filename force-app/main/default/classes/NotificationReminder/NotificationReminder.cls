@@ -1,6 +1,4 @@
 public with sharing class NotificationReminder {
-  private static final String DEVELOPER_NAME = 'Contact_Account_Reminder_Notification';
-
   private static void sendAccountReminderToSalesManager(
     Account acct,
     Id customNotificationId
@@ -38,7 +36,7 @@ public with sharing class NotificationReminder {
 
   public static void sendAccountReminderToSalesManagers() {
     Id customNotificationId = CustomNotificationController.getCustomNotificationByDeveloperName(
-      NotificationReminder.DEVELOPER_NAME
+      CustomNotificationController.CONTACT_ACCOUNT_REMINDER_NOTIFICATION
     );
 
     List<Account> lstAccount = [
@@ -61,7 +59,7 @@ public with sharing class NotificationReminder {
 
   public static void sendAccountReminderToRegionalManagers() {
     Id customNotificationId = CustomNotificationController.getCustomNotificationByDeveloperName(
-      DEVELOPER_NAME
+      CustomNotificationController.CONTACT_ACCOUNT_REMINDER_NOTIFICATION
     );
 
     List<Account> lstAccount = [

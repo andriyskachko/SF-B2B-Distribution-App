@@ -1,6 +1,4 @@
 public with sharing class ContractHandler {
-  private static final String DEVELOPER_NAME = 'Contract_Is_Created';
-
   private static boolean isApprovalRequired(Decimal amount) {
     return amount >= 5000;
   }
@@ -37,7 +35,7 @@ public with sharing class ContractHandler {
     List<Contract> lstTriggerContract
   ) {
     Id customNotificationTypeId = CustomNotificationController.getCustomNotificationByDeveloperName(
-      ContractHandler.DEVELOPER_NAME
+      CustomNotificationController.CONTRACT_IS_CREATED
     );
 
     if (customNotificationTypeId == null) {
