@@ -74,12 +74,12 @@ public with sharing class NotificationReminder {
       LIMIT 5000
     ];
 
-    Map<Id, Set<String>> regionToUsersMap = Utils.getRegionToUsersMapByRole(
+    Map<Id, Set<String>> regionToUsersMap = Territory2Controller.getTerritory2UsersMapByRole(
       UserController.REGIONAL_MANAGER_ROLE
     );
 
     for (Account a : lstAccount) {
-      Id regionId = a.Region__c;
+      Id regionId = a.Region__c; // USE TERRITORY2ID INSTEAD
       Set<String> regionalManagerIds = regionToUsersMap.get(regionId);
       NotificationReminder.sendAccountReminderToRegionalManager(
         a,

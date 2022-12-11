@@ -58,12 +58,12 @@ public with sharing class ContractHandler {
       WITH SECURITY_ENFORCED
     ];
 
-    Map<Id, Set<String>> regionToUsersMap = Utils.getRegionToUsersMapByRole(
+    Map<Id, Set<String>> regionToUsersMap = Territory2Controller.getTerritory2UsersMapByRole(
       UserController.REGIONAL_MANAGER_ROLE
     );
 
     for (Contract c : lstContract) {
-      Id regionId = c.SourceOpportunity.Account.Region__c;
+      Id regionId = c.SourceOpportunity.Account.Region__c; // USE ACCOUNT TERRITORY INSTEAD
       Set<String> regionalManagerIds = regionToUsersMap.get(regionId);
 
       ContractHandler.sendContractIsCreatedNotification(

@@ -22,4 +22,35 @@ public with sharing class Territory2Controller {
 
     return lstUser;
   }
+
+  public static Map<Id, Set<String>> getTerritory2UsersMapByRole(String role) {
+    Map<Id, Set<String>> mapTerritory2Users = new Map<Id, Set<String>>();
+
+    List<Territory2> lstTerritory2 = [
+      SELECT Id, Name
+      FROM Territory2
+      WITH SECURITY_ENFORCED
+      LIMIT 5000
+    ];
+
+    List<UserTerritory2Association> lstUserTerritory2Association = [
+      SELECT UserID, Territory2Id
+      FROM UserTerritory2Association
+      WHERE RoleInTerritory2 = :role
+      WITH SECURITY_ENFORCED
+      LIMIT 5000
+    ];
+
+    for (Territory2 t : lstTerritory2) {
+      Set<String> userIdSet = new Set<String>();
+      for (UserTerritory2Association uta : lstUserTerritory2Association) {
+        if (uta.Territory2Id == t.Id) {
+          userIdSet.add(uta.UserId);
+        }
+      }
+      mapTerritory2Users.put(t.Id, userIdSet);
+    }
+
+    return mapTerritory2Users;
+  }
 }
