@@ -50,7 +50,7 @@ public with sharing class ContractHandler {
         OwnerId,
         SourceOpportunity.Name,
         SourceOpportunity.Account.Assigned_Sales_Manager__c,
-        SourceOpportunity.Account.Region__c, // USE ACCOUNT TERRITORY INSTEAD
+        SourceOpportunity.Account.Territory2Id,
         SourceOpportunity.Amount,
         Status
       FROM Contract
@@ -58,13 +58,13 @@ public with sharing class ContractHandler {
       WITH SECURITY_ENFORCED
     ];
 
-    Map<Id, Set<String>> regionToUsersMap = Territory2Controller.getTerritory2UsersMapByRole(
+    Map<Id, Set<String>> territory2ToUsersMap = Territory2Controller.getTerritory2UsersMapByRole(
       UserController.REGIONAL_MANAGER_ROLE
     );
 
     for (Contract c : lstContract) {
-      Id regionId = c.SourceOpportunity.Account.Region__c; // USE ACCOUNT TERRITORY INSTEAD
-      Set<String> regionalManagerIds = regionToUsersMap.get(regionId);
+      Id regionId = c.SourceOpportunity.Account.Territory2Id;
+      Set<String> regionalManagerIds = territory2ToUsersMap.get(regionId);
 
       ContractHandler.sendContractIsCreatedNotification(
         c,
