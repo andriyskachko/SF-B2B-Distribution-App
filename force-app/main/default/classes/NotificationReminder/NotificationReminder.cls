@@ -62,8 +62,13 @@ public with sharing class NotificationReminder {
       CustomNotificationController.CONTACT_ACCOUNT_REMINDER_NOTIFICATION
     );
 
+    Map<Id, Id> accountTerritory2Id = AccountController.getAccountTerritory2Associations();
+    Map<Id, Set<String>> territory2ToUsersMap = Territory2Controller.getTerritory2UsersMapByRole(
+      UserController.REGIONAL_MANAGER_ROLE
+    );
+
     List<Account> lstAccount = [
-      SELECT Id, Name, Assigned_Sales_Manager__c, LastActivityDate, Territory2Id
+      SELECT Id, Name, Assigned_Sales_Manager__c, LastActivityDate
       FROM Account
       WHERE
         Assigned_Sales_Manager__c != NULL
@@ -72,12 +77,8 @@ public with sharing class NotificationReminder {
       LIMIT 5000
     ];
 
-    Map<Id, Set<String>> territory2ToUsersMap = Territory2Controller.getTerritory2UsersMapByRole(
-      UserController.REGIONAL_MANAGER_ROLE
-    );
-
     for (Account a : lstAccount) {
-      Id regionId = a.Territory2Id;
+      Id regionId = accountTerritory2Id.get(a.Id);
       Set<String> regionalManagerIds = territory2ToUsersMap.get(regionId);
       NotificationReminder.sendAccountReminderToRegionalManager(
         a,

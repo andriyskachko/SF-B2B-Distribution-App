@@ -42,26 +42,27 @@ public with sharing class ContractHandler {
       return;
     }
 
+    Map<Id, Set<String>> territory2ToUsersMap = Territory2Controller.getTerritory2UsersMapByRole(
+      UserController.REGIONAL_MANAGER_ROLE
+    );
+    Map<Id, Id> accountTerritory2Id = AccountController.getAccountTerritory2Associations();
+
     List<Contract> lstContract = [
       SELECT
         Id,
         OwnerId,
         SourceOpportunity.Name,
         SourceOpportunity.Account.Assigned_Sales_Manager__c,
-        SourceOpportunity.Account.Territory2Id,
         SourceOpportunity.Amount,
+        SourceOpportunity.AccountId,
         Status
       FROM Contract
       WHERE Id IN :lstTriggerContract
       WITH SECURITY_ENFORCED
     ];
 
-    Map<Id, Set<String>> territory2ToUsersMap = Territory2Controller.getTerritory2UsersMapByRole(
-      UserController.REGIONAL_MANAGER_ROLE
-    );
-
     for (Contract c : lstContract) {
-      Id regionId = c.SourceOpportunity.Account.Territory2Id;
+      Id regionId = accountTerritory2Id.get(c.SourceOpportunity.AccountId);
       Set<String> regionalManagerIds = territory2ToUsersMap.get(regionId);
 
       ContractHandler.sendContractIsCreatedNotification(
