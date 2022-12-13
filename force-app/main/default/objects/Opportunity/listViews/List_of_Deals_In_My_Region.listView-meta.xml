@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>List_of_Deals_In_My_Region</fullName>
+    <columns>OPPORTUNITY.NAME</columns>
+    <columns>Sales_Manager__c</columns>
+    <columns>OPPORTUNITY.STAGE_NAME</columns>
+    <columns>OPPORTUNITY.CLOSE_DATE</columns>
+    <columns>OPPORTUNITY.AMOUNT</columns>
+    <filterScope>MyTeamTerritory</filterScope>
+    <label>List of Deals In My Region</label>
+</ListView>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sales_Managers_KPIs</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>OPPORTUNITY.NAME</columns>
+    <columns>OPPORTUNITY.STAGE_NAME</columns>
+    <columns>OPPORTUNITY.CLOSE_DATE</columns>
+    <columns>OPPORTUNITY.QUANTITY</columns>
+    <columns>OPPORTUNITY.AMOUNT</columns>
+    <filterScope>MyTeamTerritory</filterScope>
+    <label>Sales Managers KPIs</label>
+</ListView>

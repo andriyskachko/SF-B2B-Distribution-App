@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Fulfillment Request</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Fulfillment Requests</value>
+    </caseValues>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage />
+        <name>Before_Today_Validation</name>
+    </validationRules>
+</CustomObjectTranslation>

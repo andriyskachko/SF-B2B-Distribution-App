@@ -9,7 +9,7 @@ import PRODUCT_ITEM_OBJECT from "@salesforce/schema/ProductItem";
 import LOCATION_FIELD from "@salesforce/schema/ProductItem.LocationId";
 import PRODUCT_NAME_FIELD from "@salesforce/schema/ProductItem.Product2Id";
 import QUANTITY_ON_HAND_FIELD from "@salesforce/schema/ProductItem.QuantityOnHand";
-import QUANTITY_UNIT_OF_MEASURE_FIELD from "@salesforce/schema/ProductItem.QuantityUnitOfMeasure.";
+import QUANTITY_UNIT_OF_MEASURE_FIELD from "@salesforce/schema/ProductItem.QuantityUnitOfMeasure";
 import SERIAL_NUMBER_FIELD from "@salesforce/schema/ProductItem.SerialNumber";
 import hasRegionalManagerCustomPermission from "@salesforce/customPermission/Regional_Manager_Custom_Permission";
 
