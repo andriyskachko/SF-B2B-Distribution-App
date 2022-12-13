@@ -2,17 +2,18 @@ public with sharing class ProductItemHandler {
   public static void sendNotificationToRegionalManagerIfProductLowInStock(
     List<ProductItem> lstTriggerProductItem
   ) {
-    Warehouse_Limit__mdt warehouseLimit = [
-      SELECT Run_Out_Limit__c
+    List<Warehouse_Limit__mdt> lstWarhouseLimit = [
+      SELECT Run_Out_Limit__ce
       FROM Warehouse_Limit__mdt
       WITH SECURITY_ENFORCED
     ];
 
-    if (warehouseLimit == null) {
+    if (lstWarehouseLimit.size() == 0) {
       return;
     }
 
-    Decimal runOutLimit = warehouseLimit.Run_Out_Limit__c;
+    Decimal runOutLimit = lstWarehouseLimit.Run_Out_Limit__c;
+
     if (runOutLimit == null) {
       return;
     }
