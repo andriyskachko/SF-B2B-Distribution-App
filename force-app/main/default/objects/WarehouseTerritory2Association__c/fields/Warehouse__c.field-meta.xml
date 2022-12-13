@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Warehouse__c</fullName>
+    <externalId>false</externalId>
+    <label>Warehouse</label>
+    <referenceTo>Warehouse__c</referenceTo>
+    <relationshipLabel>WarehouseTerritory2Associations</relationshipLabel>
+    <relationshipName>WarehouseTerritory2Associations</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>
