@@ -124,10 +124,6 @@ export default class ProductItemsOnWarehouse extends LightningElement {
     });
   }
 
-  handleViewAll() {
-    console.log("view all pressed");
-  }
-
   async handleAddProductItem() {
     const result = await NewRecordModal.open({
       size: "small",

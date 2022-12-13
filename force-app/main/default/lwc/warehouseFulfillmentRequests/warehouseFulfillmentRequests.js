@@ -130,7 +130,7 @@ export default class WarehouseFulfillmentRequests extends LightningElement {
   }
 
   get cardTitle() {
-    return `New Fulfillment Requests (${this.requestsCount})`;
+    return `Fulfillment Requests (${this.requestsCount})`;
   }
 
   get latestFulfillmentRequestUrl() {
