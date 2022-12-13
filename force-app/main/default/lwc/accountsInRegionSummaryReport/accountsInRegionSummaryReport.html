@@ -2,38 +2,47 @@
   <lightning-card
     variant="narrow"
     icon-name="standard:customers"
-    title="Accounts Summary Report"
     class="slds-p-around_xx-small"
+    title="Accounts Summary Report"
   >
-    <div slot="actions">
+    <div slot="actions" class="slds-col slds-no-flex slds-grid slds-align-top">
       <lightning-button
         label="Generate PDF Report"
         title="Generate PDF Report"
         onclick={handleGeneratePDFReport}
-        class="slds-m-left_x-small"
       ></lightning-button>
     </div>
-    <div class="slds-p-around_medium">
-      <lightning-combobox
-        name="Sales Manager"
-        label="Sales Manager"
-        options={salesManagersOptions}
-        placeholder="Select a Sales Manager"
-      ></lightning-combobox>
-      <lightning-combobox
-        name="Worked With Time Frame"
-        label="Worked With Time Frame"
-        value={closedDateValue}
-        options={options}
-        onchange={handleClosedDateValueChange}
-        placeholder="Select a Time Frame"
-      ></lightning-combobox>
+    <div class="slds-grid slds-gutters slds-p-horizontal_medium">
+      <div class="slds-col">
+        <p class="slds-text-body--small">{summaryInfo}</p>
+      </div>
+      <div class="slds-grid">
+        <lightning-combobox
+          class="slds-col"
+          name="Sales Manager"
+          label="Sales Manager"
+          options={salesManagersOptions}
+          value={selectedSalesManager}
+          onchange={handleSelectedSalesManagerChange}
+          placeholder="Select a Sales Manager"
+        ></lightning-combobox>
+        <lightning-combobox
+          class="slds-col"
+          name="Time Frame"
+          label="Time Frame"
+          value={closedDateValue}
+          options={options}
+          onchange={handleClosedDateValueChange}
+          placeholder="Select a Time Frame"
+        ></lightning-combobox>
+      </div>
     </div>
     <div class="slds-card__body">
       <lightning-datatable
         data={data}
         columns={columns}
         key-field="id"
+        hide-checkbox-column
       ></lightning-datatable>
     </div>
   </lightning-card>

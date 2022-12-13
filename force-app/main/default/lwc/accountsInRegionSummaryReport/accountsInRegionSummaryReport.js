@@ -52,13 +52,13 @@ export default class CustomersInRegionSummaryReport extends LightningElement {
   options = OPTIONS;
   userId = ID;
   defaultClosedDateValue = ALL.value;
-  closedDateValue = this.dateClosedDateDefaultValue;
+  closedDateValue = this.defaultClosedDateValue;
   /** @type {OpportunitiesSummaryDTO[]} */
   data = [];
   /** @type {UserDTO[]} */
   _salesManagers = [];
   salesManagersIds = [];
-  selectedSalesManager = "";
+  selectedSalesManager = "All";
   headers = this.createHeaders(this.columns.map((c) => c.fieldName));
 
   renderedCallback() {
@@ -126,6 +126,17 @@ export default class CustomersInRegionSummaryReport extends LightningElement {
     }
   }
 
+  handleSelectedSalesManagerChange(event) {
+    this.selectedSalesManager = event.detail.value;
+    if (this.selectedSalesManager === "All") {
+      this.salesManagersIds = this._salesManagers.map((s) => s.id);
+    } else {
+      this.salesManagersIds = this._salesManagers
+        .filter((s) => s.id === this.selectedSalesManager)
+        .map((s) => s.id);
+    }
+  }
+
   handleClosedDateValueChange(event) {
     this.closedDateValue = event.detail.value;
   }
@@ -168,11 +179,18 @@ export default class CustomersInRegionSummaryReport extends LightningElement {
 
   /** @type {Option[]} */
   get salesManagersOptions() {
-    return this.salesManagers.map((s) => {
-      return {
-        label: s.name,
-        value: s.id
-      };
-    });
+    return [
+      { label: "All", value: "All" },
+      ...this.salesManagers.map((s) => {
+        return {
+          label: s.name,
+          value: s.id
+        };
+      })
+    ];
+  }
+
+  get summaryInfo() {
+    return `Sales Manager ${this.selectedSalesManagerName} • Time Frame ${this.selectedTimeFrameName}`;
   }
 }
