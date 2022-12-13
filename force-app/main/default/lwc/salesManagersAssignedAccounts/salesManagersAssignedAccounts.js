@@ -6,7 +6,7 @@ import {
   APPLICATION_SCOPE
 } from "lightning/messageService";
 import ACCOUNT_IS_SELECTED_CHANNEL from "@salesforce/messageChannel/AccountIsSelectedChannel__c";
-import ACCOUNT from "@salesforce/schema/Account";
+import ACCOUNT_OBJECT from "@salesforce/schema/Account";
 import ID from "@salesforce/user/Id";
 
 /** @type {DatatableColumn[]} */
@@ -28,7 +28,7 @@ const COLUMNS = [
 ];
 
 export default class SalesManagersAssignedAccounts extends LightningElement {
-  objectApiName = ACCOUNT;
+  objectApiName = ACCOUNT_OBJECT;
   userId = ID;
   columns = COLUMNS;
   searchKeyword = "";
@@ -42,7 +42,7 @@ export default class SalesManagersAssignedAccounts extends LightningElement {
   filteredAccounts = [];
   isLoading = true;
 
-  renderedCallback() {
+  connectedCallback() {
     this.isLoading = false;
   }
 
@@ -108,5 +108,13 @@ export default class SalesManagersAssignedAccounts extends LightningElement {
       return isReverse * ((a > b) - (b > a));
     });
     this.filteredAccounts = parsedData;
+  }
+
+  get assignedAccountsTitle() {
+    return `Assigned Accounts (${this._assignedAccounts.length})`;
+  }
+
+  get initialAccountsIsEmpty() {
+    return this._assignedAccounts.length === 0;
   }
 }
