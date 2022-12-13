@@ -32,7 +32,7 @@ public with sharing class ProductItemHandler {
     Map<Id, Set<String>> locationRegionalManagersMap = LocationController.getLocationRegionalManagers();
 
     for (ProductItem p : lstProductItem) {
-      Set<Id> regionalManagersIds = locationRegionalManagersMap.get(
+      Set<String> regionalManagersIds = locationRegionalManagersMap.get(
         p.LocationId
       );
       if (regionalManagersIds.size() == 0) {
@@ -45,7 +45,7 @@ public with sharing class ProductItemHandler {
 
   private static void sendWarehouseRunsOutOnProductNotification(
     ProductItem productItem,
-    Set<Id> recipientIds
+    Set<String> recipientIds
   ) {
     Id customNotificationId = CustomNotificationController.getCustomNotificationByDeveloperName(
       CustomNotificationController.WAREHOUSE_RUNNING_OUT

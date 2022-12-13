@@ -49,18 +49,18 @@ public with sharing class LocationController {
     Map<Id, Id> territory2LocationMap = new Map<Id, Id>();
 
     for (WarehouseTerritory2Association__c wta : [
-      SELECT Warehouse__c.LocationId__c, Territory_r.Territory2Id__c
+      SELECT Warehouse__r.LocationId__c, Territory__r.Territory2Id__c
       FROM WarehouseTerritory2Association__c
       WITH SECURITY_ENFORCED
       LIMIT 5000
     ]) {
       territory2LocationMap.put(
-        wta.Territory_r.Territory2Id__c,
-        wta.Warehouse__c.LocationId__c
+        wta.Territory__r.Territory2Id__c,
+        wta.Warehouse__r.LocationId__c
       );
     }
 
-    Map<Id, Set<Id>> territory2RegionalManagerMap = new Map<Id, Set<Id>>();
+    Map<Id, Set<String>> territory2RegionalManagerMap = new Map<Id, Set<String>>();
 
     for (UserTerritory2Association uta : [
       SELECT UserId, Territory2Id
@@ -69,25 +69,25 @@ public with sharing class LocationController {
       WITH SECURITY_ENFORCED
       LIMIT 5000
     ]) {
-      Set<Id> regionalManagers = territory2RegionalManagerMap.get(
+      Set<String> existingRegionalManagers = territory2RegionalManagerMap.get(
         uta.Territory2Id
       );
-      if (regionalManagers == null) {
-        Set<Id> regionalManagers = new Set<Id>{ uta.UserId };
+      if (existingRegionalManagers == null) {
+        Set<String> regionalManagers = new Set<String>{ uta.UserId };
         territory2RegionalManagerMap.put(uta.Territory2Id, regionalManagers);
       } else {
-        regionalManagers.add(uta.UserId);
+        existingRegionalManagers.add(uta.UserId);
       }
     }
 
     Map<Id, Set<String>> locationRegionalManagerMap = new Map<Id, Set<String>>();
 
     for (Id key : territory2LocationMap.keySet()) {
-      Id locationId = territory2LocationMap.get(Id);
-      Set<Id> userIds = territory2RegionalManagerMap.get(Id);
+      Id locationId = territory2LocationMap.get(key);
+      Set<String> userIds = territory2RegionalManagerMap.get(key);
       locationRegionalManagerMap.put(locationId, userIds);
     }
 
-    return locationRegionManagerMap;
+    return locationRegionalManagerMap;
   }
 }
