@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
         <name>Send_Notification_When_Sales_Manager_Assigned_To_An_Account</name>
-        <label
-    >Send Notification When Sales Manager Assigned To An Account</label>
+        <label>Send Notification When Sales Manager Assigned To An Account</label>
         <locationX>50</locationX>
         <locationY>695</locationY>
         <actionName>customNotificationAction</actionName>
@@ -12,15 +11,13 @@
         <inputParameters>
             <name>customNotifTypeId</name>
             <value>
-                <elementReference
-        >Get_Opportunity_Assigned_Notification.Id</elementReference>
+                <elementReference>Get_Opportunity_Assigned_Notification.Id</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
             <name>body</name>
             <value>
-                <stringValue
-        >Account {!$Record.Name} is assigned to you.</stringValue>
+                <stringValue>Account {!$Record.Name} is assigned to you.</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -58,13 +55,11 @@
             <assignToReference>varSalesManagers</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference
-        >$Record.Assigned_Sales_Manager__c</elementReference>
+                <elementReference>$Record.Assigned_Sales_Manager__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference
-      >Send_Notification_When_Sales_Manager_Assigned_To_An_Account</targetReference>
+            <targetReference>Send_Notification_When_Sales_Manager_Assigned_To_An_Account</targetReference>
         </connector>
     </assignments>
     <decisions>
@@ -77,8 +72,7 @@
             <name>Custom_Notification_Exists</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference
-        >Get_Opportunity_Assigned_Notification.Id</leftValueReference>
+                <leftValueReference>Get_Opportunity_Assigned_Notification.Id</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -91,8 +85,7 @@
         </rules>
     </decisions>
     <environments>Default</environments>
-    <interviewLabel
-  >Send Notification When Sales Manager Assigned To An Account {!$Flow.CurrentDateTime}</interviewLabel>
+    <interviewLabel>Send Notification When Sales Manager Assigned To An Account {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Send Notification When Sales Manager Assigned To An Account</label>
     <processMetadataValues>
         <name>BuilderType</name>
@@ -118,11 +111,9 @@
         <label>Get Account Assigned Notification</label>
         <locationX>182</locationX>
         <locationY>335</locationY>
-        <assignNullValuesIfNoRecordsFound
-    >false</assignNullValuesIfNoRecordsFound>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference
-      >Check_If_Custom_Notification_Exists</targetReference>
+            <targetReference>Check_If_Custom_Notification_Exists</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -140,8 +131,7 @@
         <locationX>56</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference
-      >Get_Opportunity_Assigned_Notification</targetReference>
+            <targetReference>Get_Opportunity_Assigned_Notification</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>

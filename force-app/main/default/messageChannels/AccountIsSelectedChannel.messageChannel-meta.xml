@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
-    <masterLabel>AccountIsSelectedChannel</masterLabel>
+    <description>Channel for communicating the current selected Accounts(s)for a User (Sales Manager)</description>
     <isExposed>true</isExposed>
-    <description
-  >Channel for communicating the current selected Accounts(s)for a User (Sales Manager)</description>
     <lightningMessageFields>
-        <fieldName>lstAccountIds</fieldName>
         <description>List of Account Ids</description>
+        <fieldName>lstAccountIds</fieldName>
     </lightningMessageFields>
+    <masterLabel>AccountIsSelectedChannel</masterLabel>
 </LightningMessageChannel>

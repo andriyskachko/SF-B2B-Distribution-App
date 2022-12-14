@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Layout_With_Assigned_Sales_Manager</fullName>
+    <fields>AccountId</fields>
+    <fields>Sales_Manager__c</fields>
+    <fields>CloseDate</fields>
+    <fields>Amount</fields>
+    <label>Layout With Assigned Sales Manager</label>
+</CompactLayout>

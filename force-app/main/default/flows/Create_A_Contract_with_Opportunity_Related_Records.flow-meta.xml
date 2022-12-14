@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>56.0</apiVersion>
     <assignments>
@@ -24,8 +24,7 @@
         <locationX>264</locationX>
         <locationY>935</locationY>
         <assignmentItems>
-            <assignToReference
-      >Loop_through_Products.Contract__c</assignToReference>
+            <assignToReference>Loop_through_Products.Contract__c</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>Create_Contract</elementReference>
@@ -35,19 +34,15 @@
             <targetReference>Add_Updated_OLI_to_Collection</targetReference>
         </connector>
     </assignments>
-    <description
-  >Creates Contract only when status updates to Closed Won</description>
+    <description>Creates Contract only when status updates to Closed Won</description>
     <environments>Default</environments>
     <formulas>
-        <description
-    >Returns &apos;In Approval Process&apos; if Opportunity Amount is $5000 or more, otherwise returns &apos;Draft&apos;</description>
+        <description>Returns &apos;In Approval Process&apos; if Opportunity Amount is $5000 or more, otherwise returns &apos;Draft&apos;</description>
         <name>GetStatus</name>
         <dataType>String</dataType>
-        <expression
-    >IF({!$Record.Amount} &gt;= 5000, &apos;In Approval Process&apos;, &apos;Activated&apos;)</expression>
+        <expression>IF({!$Record.Amount} &gt;= 5000, &apos;In Approval Process&apos;, &apos;Activated&apos;)</expression>
     </formulas>
-    <interviewLabel
-  >Create A Contract with Opportunity Related Records {!$Flow.CurrentDateTime}</interviewLabel>
+    <interviewLabel>Create A Contract with Opportunity Related Records {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Create A Contract with Opportunity Related Records</label>
     <loops>
         <name>Loop_through_Products</name>
@@ -88,8 +83,7 @@
         <locationX>176</locationX>
         <locationY>455</locationY>
         <connector>
-            <targetReference
-      >Update_Record_Status_Based_on_Opportunity_Amount</targetReference>
+            <targetReference>Update_Record_Status_Based_on_Opportunity_Amount</targetReference>
         </connector>
         <inputAssignments>
             <field>AccountId</field>
@@ -100,8 +94,7 @@
         <inputAssignments>
             <field>CompanySignedId</field>
             <value>
-                <elementReference
-        >Get_Opportunity.Account.Assigned_Sales_Manager__c</elementReference>
+                <elementReference>Get_Opportunity.Account.Assigned_Sales_Manager__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -136,8 +129,7 @@
         <label>Get Opportunity</label>
         <locationX>176</locationX>
         <locationY>335</locationY>
-        <assignNullValuesIfNoRecordsFound
-    >false</assignNullValuesIfNoRecordsFound>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Contract</targetReference>
         </connector>
@@ -159,8 +151,7 @@
         <label>Get Opportunity Products</label>
         <locationX>176</locationX>
         <locationY>695</locationY>
-        <assignNullValuesIfNoRecordsFound
-    >false</assignNullValuesIfNoRecordsFound>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Loop_through_Products</targetReference>
         </connector>
@@ -177,8 +168,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
-        <description
-    >Get all the Opportunity Line Items with the Contract IDs</description>
+        <description>Get all the Opportunity Line Items with the Contract IDs</description>
         <name>Update_Opportunity_Line_Items</name>
         <label>Update Opportunity Line Items</label>
         <locationX>176</locationX>
@@ -215,8 +205,7 @@
         <connector>
             <targetReference>Get_Opportunity</targetReference>
         </connector>
-        <doesRequireRecordChangedToMeetCriteria
-    >true</doesRequireRecordChangedToMeetCriteria>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
         <filterLogic>and</filterLogic>
         <filters>
             <field>StageName</field>

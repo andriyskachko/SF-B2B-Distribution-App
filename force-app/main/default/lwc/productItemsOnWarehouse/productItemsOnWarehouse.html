@@ -5,7 +5,7 @@
     title="Product Items"
   >
     <template if:true={warehouseId}>
-      <div slot="actions">
+      <div slot="actions" if:true={hasRegionalManagerCustomPermission}>
         <lightning-button
           label="New Product Item"
           onclick={handleAddProductItem}
@@ -36,16 +36,6 @@
     </template>
 
     <div
-      if:false={warehouseId}
-      class="slds-illustration slds-illustration_small"
-    >
-      <div class="slds-text-longform">
-        <h3 class="slds-text-heading_medium">No Product Items to show.</h3>
-        <p class="slds-text-body_regular">Please select Warehouse first.</p>
-      </div>
-    </div>
-
-    <div
       if:false={areProductItems}
       class="slds-illustration slds-illustration_small"
     >
@@ -53,9 +43,6 @@
         <h3 class="slds-text-heading_medium">
           No Product Items on the Warehouse.
         </h3>
-        <p class="slds-text-body_regular">
-          Create or Import new Product Items.
-        </p>
       </div>
     </div>
   </lightning-card>

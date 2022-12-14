@@ -1,6 +1,7 @@
 public with sharing class UserTerritory2AssociationHandler {
+  @future
   public static void notifySalesOps(
-    List<UserTerritory2Association> lstTriggerUserTerritory2Association
+    Set<Id> lstTriggerUserTerritory2Association
   ) {
     List<UserTerritory2Association> utaList = [
       SELECT

@@ -1,4 +1,5 @@
 import { LightningElement, wire } from "lwc";
+import { NavigationMixin } from "lightning/navigation";
 import getFulfillmentRequestsForUserAssociatedWarehouse from "@salesforce/apex/FulfillmentRequestController.getFulfillmentRequestsForUserAssociatedWarehouse";
 import getUserAssociatedTerritoryRegionalManager from "@salesforce/apex/UserController.getUserAssociatedTerritoryRegionalManager";
 import getUserAssociatedWarehouse from "@salesforce/apex/UserController.getUserAssociatedWarehouse";
@@ -32,7 +33,9 @@ const RECORD_PAGE_FIELDS = [
   DUE_DATE_FIELD
 ];
 
-export default class WarehouseFulfillmentRequests extends LightningElement {
+export default class WarehouseFulfillmentRequests extends NavigationMixin(
+  LightningElement
+) {
   fulfillmentRequestModalFields = FULLFILMENT_REQUEST_MOODAL_FIELDS;
   recordPageFields = RECORD_PAGE_FIELDS;
   objectApiName = FULFILLMENT_REQUEST_OBJECT;
@@ -45,6 +48,7 @@ export default class WarehouseFulfillmentRequests extends LightningElement {
   warehouseId = "";
   locationId = "";
   recordId = "";
+  listViewFilter = "00B1x00000AAlwPEAT";
 
   @wire(getUserAssociatedTerritoryRegionalManager, { userId: "$userId" })
   wiredRegionalManager({ error, data }) {
@@ -94,8 +98,16 @@ export default class WarehouseFulfillmentRequests extends LightningElement {
   }
 
   handleViewAll() {
-    // TODO: Redirect to List View
-    console.log("handled view all");
+    this[NavigationMixin.Navigate]({
+      type: "standard__objectPage",
+      attributes: {
+        objectApiName: this.objectApiName.objectApiName,
+        actionName: "list"
+      },
+      state: {
+        filterName: this.listViewFilter
+      }
+    });
   }
 
   async handleAddFullfilmentRequest() {
