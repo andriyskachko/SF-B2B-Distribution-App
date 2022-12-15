@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description
+  >Channel for communicating the current active Customer on the Site</description>
+    <isExposed>true</isExposed>
+    <lightningMessageFields>
+        <description>User's associated Account Id</description>
+        <fieldName>customerAssociatedAccountId</fieldName>
+    </lightningMessageFields>
+    <masterLabel>CustomerLoggedIn</masterLabel>
+</LightningMessageChannel>
