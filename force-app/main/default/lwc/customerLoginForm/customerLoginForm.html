@@ -1,0 +1,32 @@
+<template>
+  <lightning-card variant="narrow">
+    <h3 slot="title" class="slds-text-title_bold slds-text-heading_large">
+      Login
+    </h3>
+    <div class="slds-card__body slds-card__body_inner">
+      <form>
+        <lightning-input
+          value={login}
+          placeholder="Username"
+          onchange={handleLoginChange}
+          type="text"
+        ></lightning-input>
+        <lightning-input
+          value={password}
+          placeholder="Password"
+          onchange={handlePasswordChange}
+          type="password"
+        ></lightning-input>
+      </form>
+      <div
+        class="slds-grid slds-gutters slds-gutters_small slds-p-around_xx-small"
+      >
+        <lightning-button
+          onclick={handleLogin}
+          variant="brand"
+          label="Log in"
+        ></lightning-button>
+      </div>
+    </div>
+  </lightning-card>
+</template>
