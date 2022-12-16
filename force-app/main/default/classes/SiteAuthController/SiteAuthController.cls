@@ -5,7 +5,10 @@ public without sharing class SiteAuthController {
   private class TokenHasExpiredException extends Exception {
   }
 
-  private final String defaultToken = 'hello world';
+  private class InvalidTokenException extends Exception {
+  }
+
+  private static final String DEFAULT_TOKEN = 'hello world';
 
   @AuraEnabled
   public static List<String> login(String loginOrEmail, String password) {
@@ -29,7 +32,7 @@ public without sharing class SiteAuthController {
       Account_User_Login__c acctUserLogin = lstAccountUserLogin[0];
 
       String token = generateSessionToken();
-      String expirationDate = generateExpirationDate();
+      Datetime expirationDate = generateExpirationDate();
 
       // SET TOKEN AND EXPIRATION DATE
       // TO THE ACCOUNT LOGIN CUSTOM AUTH TO LATER AUTH BY IT
@@ -49,32 +52,41 @@ public without sharing class SiteAuthController {
   public static string authenticate(String token) {
     try {
       List<Account_User_Login__c> lstAccountUserLogin = [
-        // SELECT Custom Auth Token
-        SELECT Account__c, User_Login__r.Password__c, User_Login__r.Login__c
+        SELECT
+          Account__c,
+          User_Login__r.Password__c,
+          User_Login__r.Login__c,
+          User_Login__r.Custom_Auth__r.Token__c,
+          User_Login__r.Custom_Auth__r.Expires_At__c
         FROM Account_User_Login__c
-        WHERE Token__c = :token
+        WHERE User_Login__r.Custom_Auth__r.Token__c = :token
         WITH SECURITY_ENFORCED
       ];
 
-      // IF TOKEN FOUND AND IT ISN'T EXPIRED
-      // RETURN AccountId
-      // OTHERWISE call throw exception
+      if (lstAccountUserLogin.size() == 0) {
+        throw new InvalidTokenException('Token is invalid!');
+      }
 
-      throw new TokenHasExpiredException('Token has expired!');
+      Account_User_Login__c acctUserLogin = lstAccountUserLogin[0];
 
-      return '';
+      if (
+        acctUserLogin.User_Login__r.Custom_Auth__r.Expires_At__c >=
+        Datetime.now()
+      ) {
+        throw new TokenHasExpiredException('Token has expired!');
+      }
+
+      return acctUserLogin.Account__c;
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
     }
   }
 
-  private string generateSessionToken() {
-    // TODO: IMPROVE LOGIC FOR TOKEN GENERATION
-    return defaultToken;
+  private static string generateSessionToken() {
+    return DEFAULT_TOKEN;
   }
 
-  private Datetime generateExpirationDate() {
-    // TODO: IMPROVE LOGIC FOR TOKEN GENERATION
-    return new Datetime() + 1;
+  private static Datetime generateExpirationDate() {
+    return Datetime.now();
   }
 }
