@@ -49,7 +49,7 @@ public without sharing class SiteAuthController {
   }
 
   @AuraEnabled
-  public static string authenticate(String token) {
+  public static String authenticate(String token) {
     try {
       List<Account_User_Login__c> lstAccountUserLogin = [
         SELECT
@@ -82,7 +82,7 @@ public without sharing class SiteAuthController {
     }
   }
 
-  private static string generateSessionToken() {
+  private static String generateSessionToken() {
     return DEFAULT_TOKEN;
   }
 
