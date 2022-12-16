@@ -1,4 +1,9 @@
 public with sharing class AccountController {
+  private class NoAccountFoundException extends Exception {
+  }
+  private class NoAssignedSalesManagerFoundException extends Exception {
+  }
+
   @AuraEnabled(cacheable=true)
   public static List<AccountDTO> getAssignedAccounts(String userId) {
     List<AccountDTO> lstAssignedAccounts = new List<AccountDTO>();
@@ -35,5 +40,36 @@ public with sharing class AccountController {
     }
 
     return accountTerritory2Id;
+  }
+
+  @AuraEnabled
+  public static String getAccountAssignedSalesManagerEmail(String accountId) {
+    try {
+      List<Account> lstAccount = [
+        SELECT Assigned_Sales_Manager__c, Assigned_Sales_Manager__r.Email
+        FROM Account
+        WHERE Id = :accountId
+        WITH SECURITY_ENFORCED
+      ];
+
+      if (lstAccount.size() == 0) {
+        throw new NoAccountFoundException('No account found!');
+      }
+
+      Account acct = lstAccount[0];
+
+      if (
+        acct.Assigned_Sales_Manager__c == null ||
+        Assigned_Sales_Manager__r.Email == null
+      ) {
+        throw new NoAssignedSalesManagerFoundException(
+          'No assigned sales manager found!'
+        );
+      }
+
+      return acct.Assigned_Sales_Manager__r.Email;
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
   }
 }
