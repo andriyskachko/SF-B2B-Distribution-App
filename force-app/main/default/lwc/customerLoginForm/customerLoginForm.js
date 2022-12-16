@@ -1,41 +1,41 @@
-import { LightningElement } from "lwc";
+import { LightningElement, wire } from "lwc";
 import login from "@salesforce/apex/SiteAuthController.login";
-import authenticate from "@salesforce/apex/SiteAuthController.authenticate";
+import { publish, MessageContext } from "lightning/messageService";
+import CUSTOMER_LOGGED_IN from "@salesforce/messageChannel/CustomerLoggedIn__c";
 
 export default class CustomerLoginForm extends LightningElement {
-  customerAssociatedAccount = "";
+  _accountId = "";
   login = "";
   password = "";
 
-  connectedCallback() {}
+  @wire(MessageContext)
+  messageContext;
 
-  handleLogin() {
-    login({ loginOrEmail: this.login, password: this.password }).then().catch();
-    // Call SiteAuthController login method with current credentials
-    // If it returns account and token ->
-    // Set account id and call the custom event
-    // Set the token to the cache and redirect to the main page
-    // Create custom event User Logged in so the main app can set current account id
-
-    this.handleCustomerLoggedIn();
+  async handleLogin() {
+    try {
+      const [accountId, token] = await login({
+        loginOrEmail: this.login,
+        password: this.password
+      });
+      this.setLoggedUserAccountIdAndToken(accountId, token);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  handleCustomerLoggedIn() {
-    // const customerLoggedInEvent = new CustomEvent(
-    //   "customerloggedin",
-    //   this.customerAssociatedAccount
-    // );
-    // call the event
+  setLoggedUserAccountIdAndToken(accountId, token) {
+    this._accountId = accountId;
+    this.setToken(token);
+    this.publishPayload();
   }
 
-  handleAuth() {
-    authenticate().then().catch();
-    // Get the token from cache
-    // Call Apex SiteAuthController authenticate method
-    // If it returns account id => set accountId and redirect user to the main page
-    // Otherwise do nothing
+  setToken(value) {
+    localStorage.setItem("b2b-token", value);
+  }
 
-    this.handleCustomerLoggedIn();
+  publishPayload() {
+    const payload = { accountId: this._accountId };
+    publish(this.messageContext, CUSTOMER_LOGGED_IN, payload);
   }
 
   handleLoginChange({ detail: { value } }) {
