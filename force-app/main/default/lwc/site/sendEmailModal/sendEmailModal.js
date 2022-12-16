@@ -1,6 +1,6 @@
 import LightningModal from "lightning/modal";
-import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { api } from "lwc";
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 export default class SendEmailModal extends LightningModal {
   /** @type {string[]} */
@@ -8,10 +8,8 @@ export default class SendEmailModal extends LightningModal {
   topic = "";
   emailBody = "";
 
-  send() {
-    // Add sending logic via EmailController Apex class
-    // Add Error handling logic
-    this.close();
+  async send() {
+    // sending email logic through apex class EmailController
   }
 
   showEmailFailedSendingToast(errorMessage) {
@@ -24,8 +22,16 @@ export default class SendEmailModal extends LightningModal {
     this.dispatchEvent(event);
   }
 
-  handleSendEmail() {
-    this.send(this.recipients, this.topic, this.emailBody);
-    this.close(true);
+  handleClose() {
+    this.close();
+  }
+
+  async handleSendEmail() {
+    try {
+      const response = await this.send();
+      this.close(response);
+    } catch (error) {
+      this.showEmailFailedSendingToast(error.message);
+    }
   }
 }

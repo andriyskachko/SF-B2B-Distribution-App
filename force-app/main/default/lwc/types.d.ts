@@ -71,3 +71,7 @@ interface ProductItemDTO {
   productItemQuantity: number;
   productItemSerialNumber: string;
 }
+
+interface OrderCartEntry extends ProductItemDTO {
+  productListPrice: number;
+}
