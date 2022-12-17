@@ -1,8 +1,84 @@
 <template>
-  <lightning-modal-header
-    label="Sending Email to the Sales Representative"
-  ></lightning-modal-header>
-  <lightning-modal-body>
-    <p>send email modal</p>
-  </lightning-modal-body>
+  <template if:true={isModalOpen}>
+    <section
+      role="dialog"
+      tabindex="-1"
+      aria-labelledby="modal-heading-01"
+      aria-modal="true"
+      aria-describedby="modal-content-id-1"
+      class="slds-modal slds-fade-in-open"
+    >
+      <div class="slds-modal__container">
+        <header class="slds-modal__header">
+          <lightning-button-icon
+            class="slds-modal__close"
+            icon-name="utility:close"
+            alternative-text="close"
+            variant="inverse"
+            size="medium"
+            onclick={closeModal}
+          ></lightning-button-icon>
+          <h2
+            id="modal-heading-01"
+            class="slds-text-heading_medium slds-hyphenate"
+          >
+            Send Email to the Sales Representative
+          </h2>
+          <div
+            if:true={error}
+            class="slds-notify slds-notify_alert slds-alert_error"
+            role="alert"
+          >
+            <span class="slds-assistive-text">error</span>
+            <lightning-icon
+              icon-name="utility:error"
+              size="x-small"
+              title="Error occured"
+            ></lightning-icon>
+            <h2>{error}</h2>
+          </div>
+        </header>
+        <div
+          class="slds-modal__content slds-p-around_medium"
+          id="modal-content-id-1"
+        >
+          <form id="email-form">
+            <lightning-input
+              placeholder="Enter the topic of the email"
+              label="Topic"
+              type="text"
+              value={topic}
+              required
+              onchange={handleTopicChange}
+            ></lightning-input>
+            <lightning-textarea
+              required
+              onchange={handleBodyChange}
+              value={body}
+              placeholder="Type here.."
+              label="Body"
+              maxlength="200"
+              message-when-too-long="A maximum of 200 characters are allowed in an email."
+              message-when-value-missing="An empty email cannot be send."
+            ></lightning-textarea>
+          </form>
+        </div>
+        <footer class="slds-modal__footer">
+          <lightning-button
+            variant="neutral"
+            label="Cancel"
+            onclick={closeModal}
+          ></lightning-button>
+          <lightning-button
+            variant="brand"
+            label="Send"
+            type="submit"
+            disabled={isValid}
+            onclick={handleSendEmail}
+          ></lightning-button>
+        </footer>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>
 </template>
