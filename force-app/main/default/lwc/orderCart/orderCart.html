@@ -1,0 +1,12 @@
+<template>
+  <div class="icon-wrapper">
+    <lightning-button-icon
+      icon-name="utility:cart"
+      variant="bare"
+      alternative-text="Order Cart"
+      title="Order Cart"
+      size="large"
+    ></lightning-button-icon>
+    <div class="tip" if:true={cartSize}>{cartSize}</div>
+  </div>
+</template>
