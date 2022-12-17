@@ -1,0 +1,12 @@
+<template>
+  <c-site-header account-id={accountId}></c-site-header>
+  <main>
+    <template if:false={isAuthenticated}>
+      <c-customer-login-form></c-customer-login-form>
+    </template>
+    <template if:true={isAuthenticated}>
+      <slot></slot>
+    </template>
+  </main>
+  <footer></footer>
+</template>

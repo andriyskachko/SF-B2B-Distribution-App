@@ -1,0 +1,23 @@
+<template>
+  <lightning-avatar
+    initials={accountInitials}
+    title={accountName}
+    fallback-icon-name="standard:account"
+    alternative-text={accountName}
+    size="large"
+    class="slds-m-right_small"
+  ></lightning-avatar>
+  <lightning-button-menu alternative-text="Show user menu">
+    <lightning-menu-item
+      value="logout"
+      label="Log Out"
+      title="Log out"
+      onclick={handleLogout}
+    ></lightning-menu-item>
+    <lightning-menu-item
+      value="info"
+      label="Info"
+      title="User Info"
+    ></lightning-menu-item>
+  </lightning-button-menu>
+</template>

@@ -7,6 +7,8 @@ public with sharing class EmailController {
   ) {
     try {
       // Add sending logic here!
+
+      return '';
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
     }

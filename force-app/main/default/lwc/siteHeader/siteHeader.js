@@ -1,20 +1,26 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api, wire } from "lwc";
 import SendEmailModal from "c/sendEmailModal";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
-import getAccountAssignedSalesManagerEmail from "@salesforce/apex/AccountController.getAccountAssignedSalesManagerEmail";
+import { getRecord, getFieldValue } from "lightning/uiRecordApi";
+import ASSIGNED_SALES_MANAGER_FIELD from "@salesforce/schema/Account.Assigned_Sales_Manager__c";
 
 export default class SiteHeader extends LightningElement {
   @api accountId = "";
-  assignedSalesManagerEmail = "";
 
   connectedCallback() {
     this.getAssignedSalesManagerEmail();
   }
 
+  @wire(getRecord, {
+    recordId: "$accountId",
+    fields: [ASSIGNED_SALES_MANAGER_FIELD]
+  })
+  account;
+
   async handleSendEmail() {
     const success = await SendEmailModal.open({
       size: "small",
-      recipients: [this.assignedSalesManagerEmail]
+      recipientIds: [this.accountAssignedSalesManager]
     });
 
     if (success) {
@@ -31,13 +37,7 @@ export default class SiteHeader extends LightningElement {
     this.dispatchEvent(event);
   }
 
-  async getAssignedSalesManagerEmail() {
-    try {
-      const email = await getAccountAssignedSalesManagerEmail(this.accountId);
-      this.assignedSalesManagerEmail = email;
-      console.log("Found Email: " + this.assignedSalesManagerEmail);
-    } catch (error) {
-      console.log(error);
-    }
+  get accountAssignedSalesManager() {
+    return getFieldValue(this.account.data, ASSIGNED_SALES_MANAGER_FIELD);
   }
 }

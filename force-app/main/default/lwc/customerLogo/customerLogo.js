@@ -1,16 +1,18 @@
 import { LightningElement, wire, api } from "lwc";
 import { getFieldValue, getRecord } from "lightning/uiRecordApi";
+import { publish, MessageContext } from "lightning/messageService";
+import CUSTOMER_LOGGED_OUT from "@salesforce/messageChannel/CustomerLoggedOut__c";
 import NAME_FIELD from "@salesforce/schema/Account.Name";
 import "./customerLogo.css";
 
-const FIELDS = [NAME_FIELD];
-
 export default class CustomerLogo extends LightningElement {
-  error;
   @api accountId = "";
 
-  @wire(getRecord, { recordId: "$accountId", fields: FIELDS })
+  @wire(getRecord, { recordId: "$accountId", fields: [NAME_FIELD] })
   account;
+
+  @wire(MessageContext)
+  messageContext;
 
   get accountName() {
     return getFieldValue(this.account.data, NAME_FIELD);
@@ -21,12 +23,13 @@ export default class CustomerLogo extends LightningElement {
       ? this.accountName
           .split(" ")
           .slice(0, 2)
-          .map((w) => w[0])
+          .map((word) => word[0])
           .join("")
       : "";
   }
 
   handleLogout() {
-    console.log("logout");
+    console.log("Customer logged out");
+    publish(this.messageContext, CUSTOMER_LOGGED_OUT, {});
   }
 }
