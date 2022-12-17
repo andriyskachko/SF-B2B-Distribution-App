@@ -43,10 +43,10 @@ public with sharing class AccountController {
   }
 
   @AuraEnabled
-  public static String getAccountAssignedSalesManagerEmail(String accountId) {
+  public static String getASsignedAccountSalesManagerId(String accountId) {
     try {
       List<Account> lstAccount = [
-        SELECT Assigned_Sales_Manager__c, Assigned_Sales_Manager__r.Email
+        SELECT Assigned_Sales_Manager__c
         FROM Account
         WHERE Id = :accountId
         WITH SECURITY_ENFORCED
@@ -58,16 +58,13 @@ public with sharing class AccountController {
 
       Account acct = lstAccount[0];
 
-      if (
-        acct.Assigned_Sales_Manager__c == null ||
-        Assigned_Sales_Manager__r.Email == null
-      ) {
+      if (acct.Assigned_Sales_Manager__c == null) {
         throw new NoAssignedSalesManagerFoundException(
           'No assigned sales manager found!'
         );
       }
 
-      return acct.Assigned_Sales_Manager__r.Email;
+      return acct.Assigned_Sales_Manager__c;
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
     }
