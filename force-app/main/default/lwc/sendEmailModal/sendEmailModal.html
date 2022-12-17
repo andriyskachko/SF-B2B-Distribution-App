@@ -44,12 +44,12 @@
         >
           <form id="email-form">
             <lightning-input
-              placeholder="Enter the topic of the email"
-              label="Topic"
+              placeholder="Enter the subject of the email"
+              label="Subject"
               type="text"
-              value={topic}
+              value={subject}
               required
-              onchange={handleTopicChange}
+              onchange={handleSubjectChange}
             ></lightning-input>
             <lightning-textarea
               required
@@ -73,7 +73,6 @@
             variant="brand"
             label="Send"
             type="submit"
-            disabled={isValid}
             onclick={handleSendEmail}
           ></lightning-button>
         </footer>
