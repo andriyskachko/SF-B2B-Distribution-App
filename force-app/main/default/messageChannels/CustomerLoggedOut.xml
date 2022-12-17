@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Channel to publish Customer Logged Out messages.</description>
+    <isExposed>true</isExposed>
+    <masterLabel>CustomerLoggedOut</masterLabel>
+</LightningMessageChannel>
