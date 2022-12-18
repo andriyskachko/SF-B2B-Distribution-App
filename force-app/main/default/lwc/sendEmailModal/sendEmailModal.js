@@ -3,7 +3,7 @@ import sendEmail from "@salesforce/apex/EmailController.sendEmail";
 
 export default class SendEmailModal extends LightningElement {
   @track isModalOpen = false;
-  @api salesManagerId = "";
+  @api managerId = "";
   subject = "";
   body = "";
   error;
@@ -52,12 +52,14 @@ export default class SendEmailModal extends LightningElement {
     if (this.validateInputs()) {
       try {
         const response = await sendEmail({
-          recipientIds: [this.salesManagerId],
+          salesManagerId: this.managerId,
           subject: this.subject,
           body: this.body
         });
         if (response) this.closeModal();
-        else this.error = "Unknown error occured";
+
+        this.subject = "";
+        this.body = "";
       } catch (error) {
         const {
           body: { message }

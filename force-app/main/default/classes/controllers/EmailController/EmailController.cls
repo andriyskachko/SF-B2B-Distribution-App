@@ -1,13 +1,17 @@
 public with sharing class EmailController {
+  private class NoUserWithEmailFoundException extends Exception {
+  }
+
   @AuraEnabled
   public static Boolean sendEmail(
-    List<String> recipientIds,
+    String salesManagerId,
     String subject,
     String body
   ) {
     try {
+      String userEmail = getUserEmail(salesManagerId);
       Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
-      message.toAddresses = recipientIds;
+      message.toAddresses = new List<String>{ userEmail };
       message.optOutPolicy = 'FILTER';
       message.subject = subject;
       message.plainTextBody = subject;
@@ -26,5 +30,16 @@ public with sharing class EmailController {
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
     }
+  }
+
+  private static String getUserEmail(String userId) {
+    List<User> lstUser = [
+      SELECT Email
+      FROM User
+      WHERE Id = :userId
+      WITH SECURITY_ENFORCED
+    ];
+    User user = lstUser[0];
+    return user.Email;
   }
 }
