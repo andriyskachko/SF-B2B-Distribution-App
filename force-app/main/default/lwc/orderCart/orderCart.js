@@ -49,17 +49,23 @@ export default class OrderCart extends LightningElement {
     this.subscriptions.forEach((sub) => unsubscribe(sub));
   }
 
-  handleAddProduct = ({ productId, selectedQuantity }) => {
-    this.products = [{ productId, selectedQuantity }, ...this.products];
+  handleAddProduct = ({ product }) => {
+    this.products = [product, ...this.products];
   };
 
   handleRemoveProduct = ({ productId }) => {
-    this.products = this.products.filter(
-      (product) => product.productId !== productId
-    );
+    this.products = this.products.filter((product) => product.id !== productId);
   };
 
+  handleOpenCart() {
+    this.template.querySelector("c-order-cart-modal").openModal();
+  }
+
   get cartSize() {
-    return this.products.length;
+    return this.products.length >= 10 ? "*" : this.products.length;
+  }
+
+  get isCartEmpty() {
+    return this.products.length === 0;
   }
 }

@@ -1,4 +1,5 @@
 <template>
+  <c-order-cart-modal products={products}></c-order-cart-modal>
   <div class="icon-wrapper">
     <lightning-button-icon
       icon-name="utility:cart"
@@ -6,6 +7,8 @@
       alternative-text="Order Cart"
       title="Order Cart"
       size="large"
+      onclick={handleOpenCart}
+      disabled={isCartEmpty}
     ></lightning-button-icon>
     <div class="tip" if:true={cartSize}>{cartSize}</div>
   </div>
