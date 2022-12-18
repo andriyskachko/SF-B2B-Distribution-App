@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Custom_Auth__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description
+  >Custom Auth object containing token and expiration date.</description>
+    <externalId>false</externalId>
+    <label>Custom Auth</label>
+    <referenceTo>Custom_Auth__c</referenceTo>
+    <relationshipLabel>User Logins</relationshipLabel>
+    <relationshipName>User_Logins</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
