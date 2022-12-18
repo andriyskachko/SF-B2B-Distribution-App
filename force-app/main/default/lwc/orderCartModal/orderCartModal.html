@@ -1,0 +1,78 @@
+<template>
+  <template if:true={isModalOpen}>
+    <section
+      role="dialog"
+      tabindex="-1"
+      aria-labelledby="modal-heading-01"
+      aria-modal="true"
+      aria-describedby="modal-content-id-1"
+      class="slds-modal slds-fade-in-open"
+    >
+      <div class="slds-modal__container">
+        <header class="slds-modal__header">
+          <lightning-button-icon
+            class="slds-modal__close"
+            icon-name="utility:close"
+            alternative-text="close"
+            variant="inverse"
+            size="medium"
+            onclick={closeModal}
+          ></lightning-button-icon>
+          <h2
+            id="modal-heading-01"
+            class="slds-text-heading_medium slds-hyphenate slds-float_left"
+          >
+            Your Cart
+          </h2>
+          <div class="slds-text-heading_small slds-hyphenate slds-float_right">
+            {cartSize} items
+          </div>
+          <div
+            if:true={error}
+            class="slds-notify slds-notify_alert slds-alert_error"
+            role="alert"
+          >
+            <span class="slds-assistive-text">error</span>
+            <lightning-icon
+              icon-name="utility:error"
+              size="x-small"
+              title="Error occured"
+            ></lightning-icon>
+            <h2>{error}</h2>
+          </div>
+        </header>
+        <div
+          class="slds-modal__content slds-p-around_medium"
+          id="modal-content-id-1"
+        >
+          <template for:each={products} for:item="product">
+            <p key={product.id}>
+              {product.productName} - {product.quantity} ${product.price}
+            </p>
+          </template>
+        </div>
+        <footer class="slds-modal__footer">
+          <span class="slds-text-heading_medium">Order Total: </span>
+          <span class="slds-text-heading_small">${orderTotal}</span>
+          <div
+            class="slds-grid slds-grid_align-center slds-gutters slds-gutters_x-small"
+          >
+            <lightning-button
+              variant="destructive"
+              label="Decline"
+              onclick={handleDeclineOrder}
+              class="slds-col"
+            ></lightning-button>
+            <lightning-button
+              variant="brand"
+              label="Confirm"
+              onclick={handleConfirmOrder}
+              class="slds-col"
+            ></lightning-button>
+          </div>
+        </footer>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>
+</template>
