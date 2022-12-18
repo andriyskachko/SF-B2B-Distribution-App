@@ -1,5 +1,4 @@
 import { LightningElement, wire } from "lwc";
-import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import login from "@salesforce/apex/SiteAuthController.login";
 import { publish, MessageContext } from "lightning/messageService";
 import CUSTOMER_LOGGED_IN from "@salesforce/messageChannel/CustomerLoggedIn__c";
@@ -19,22 +18,9 @@ export default class CustomerLoginForm extends LightningElement {
         password: this.password
       });
       this.setLoggedUserAccountIdAndToken(accountId, token);
-      this.showLoggedInToast(true);
     } catch (error) {
       console.log(error);
-      this.showLoggedInToast(false, error.message);
     }
-  }
-
-  showLoggedInToast(isSuccess, errorMessage) {
-    const event = new ShowToastEvent({
-      title: isSuccess
-        ? "Succesfully logged in"
-        : "Failed to log in" + errorMessage,
-      variant: isSuccess ? "success" : "error"
-    });
-
-    this.dispatchEvent(event);
   }
 
   setLoggedUserAccountIdAndToken(accountId, token) {

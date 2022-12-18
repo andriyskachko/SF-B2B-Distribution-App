@@ -29,7 +29,6 @@ export default class CustomerLogo extends LightningElement {
   }
 
   handleLogout() {
-    console.log("Customer logged out");
-    publish(this.messageContext, CUSTOMER_LOGGED_OUT, {});
+    publish(this.messageContext, CUSTOMER_LOGGED_OUT);
   }
 }
