@@ -7,6 +7,7 @@
     </lightning-avatar>
     <template if:true={accountId}>
       <div class="header__controls">
+        <c-customer-logo></c-customer-logo>
         <lightning-button-icon
           icon-name="utility:email"
           variant="bare"
@@ -17,7 +18,6 @@
           onclick={handleSendEmail}
         ></lightning-button-icon>
         <c-order-cart></c-order-cart>
-        <c-customer-logo account-id={accountId}></c-customer-logo>
       </div>
     </template>
   </header>

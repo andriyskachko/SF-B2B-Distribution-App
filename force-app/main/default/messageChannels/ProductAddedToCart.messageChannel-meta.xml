@@ -4,8 +4,8 @@
   >Channel to communicate current added products in Cart</description>
     <isExposed>true</isExposed>
     <lightningMessageFields>
-        <description>Product Id</description>
-        <fieldName>productId</fieldName>
+        <description>Product</description>
+        <fieldName>product</fieldName>
     </lightningMessageFields>
     <masterLabel>ProductAddedToCart</masterLabel>
 </LightningMessageChannel>

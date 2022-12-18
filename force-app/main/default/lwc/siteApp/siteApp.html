@@ -1,12 +1,24 @@
 <template>
-  <c-site-header account-id={accountId}></c-site-header>
-  <main>
-    <template if:false={isAuthenticated}>
-      <c-customer-login-form></c-customer-login-form>
-    </template>
-    <template if:true={isAuthenticated}>
-      <slot></slot>
-    </template>
-  </main>
-  <footer></footer>
+  <div class="container">
+    <c-site-header account-id={accountId}></c-site-header>
+    <main class="main">
+      <template if:false={isAuthenticated}>
+        <c-customer-login-form></c-customer-login-form>
+      </template>
+      <template if:true={isAuthenticated}>
+        <lightning-tabset active-tab-value="products" class="main_tab-contents">
+          <lightning-tab label="Products" value="products" class="tab-content">
+            <c-products-list account-id={accountId}></c-products-list>
+          </lightning-tab>
+          <lightning-tab
+            label="Order History"
+            value="order_history"
+            class="tab-content"
+          >
+            <c-order-history account-id={accountId}></c-order-history>
+          </lightning-tab>
+        </lightning-tabset>
+      </template>
+    </main>
+  </div>
 </template>

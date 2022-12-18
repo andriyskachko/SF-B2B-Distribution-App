@@ -27,8 +27,7 @@ export default class ProductTile extends LightningElement {
     this.dispatchEvent(
       new CustomEvent("addedtocart", {
         detail: {
-          productId: this.product.Id,
-          selectedQuantity: this.quantity
+          product: { quantity: this.quantity, ...this.product }
         }
       })
     );
@@ -39,7 +38,7 @@ export default class ProductTile extends LightningElement {
     this.dispatchEvent(
       new CustomEvent("removedfromcart", {
         detail: {
-          productId: this.product.Id
+          productId: this.product.id
         }
       })
     );
@@ -54,6 +53,6 @@ export default class ProductTile extends LightningElement {
   }
 
   get totalPrice() {
-    return this.quantity * this.product.Display_Price__c;
+    return this.quantity * this.product.price;
   }
 }
