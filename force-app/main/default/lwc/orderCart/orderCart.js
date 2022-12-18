@@ -1,4 +1,4 @@
-import { LightningElement, wire } from "lwc";
+import { LightningElement, wire, api } from "lwc";
 import {
   subscribe,
   unsubscribe,
@@ -8,8 +8,10 @@ import PRODUCT_ADDED_TO_CART from "@salesforce/messageChannel/ProductAddedToCart
 import PRODUCT_REMOVED_FROM_CART from "@salesforce/messageChannel/ProductRemovedFromCart__c";
 
 export default class OrderCart extends LightningElement {
+  /** @type {ProductEntryInCart[]} */
   products = [];
   subscriptions = [];
+  @api accountId = "";
 
   @wire(MessageContext)
   messageContext;

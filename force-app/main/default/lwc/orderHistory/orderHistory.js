@@ -1,4 +1,5 @@
 import { api, LightningElement } from "lwc";
+import getAccountOpportunityOrders from "@salesforce/apex/OpportunityController.getAccountOpportunityOrders";
 
 /** @type {DatatableColumn[]} */
 const COLUMNS = [
@@ -11,31 +12,29 @@ export default class OrderHistory extends LightningElement {
   @api accountId = "";
   columns = COLUMNS;
   /** @type {OrderSummary[]} */
-  orders = [
-    {
-      name: "Order from 12-10-22",
-      status: "Closed",
-      orderSummary: 1500,
-      _children: [
-        {
-          name: "BiG Fallos",
-          orderSummary: 1000
-        },
-        {
-          name: "Eldak)",
-          orderSummary: 500
-        }
-      ]
-    }
-  ];
+  orders = [];
+  error;
+  isLoading = true;
 
   connectedCallback() {
     this.getOrders();
   }
 
-  getOrders() {
-    // get orders via apex for Account ID
+  handlePrintOrders() {
+    console.log("Hi DEMO!");
   }
 
-  handlePrintOrders() {}
+  async getOrders() {
+    try {
+      const response = await getAccountOpportunityOrders({
+        accountId: this.accountId
+      });
+      this.orders = response.map((o) => {
+        return { ...o, _children: o.children };
+      });
+      this.isLoading = false;
+    } catch (error) {
+      this.erorr = error;
+    }
+  }
 }

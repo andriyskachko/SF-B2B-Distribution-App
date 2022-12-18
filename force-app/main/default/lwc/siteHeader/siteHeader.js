@@ -13,7 +13,7 @@ export default class SiteHeader extends LightningElement {
   })
   account;
 
-  get accountAssignedSalesManager() {
+  get managerId() {
     return getFieldValue(this.account.data, ASSIGNED_SALES_MANAGER_FIELD);
   }
 

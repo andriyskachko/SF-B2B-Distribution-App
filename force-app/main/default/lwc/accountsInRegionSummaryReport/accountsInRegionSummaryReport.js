@@ -5,7 +5,7 @@ import getSalesManagersInUsersTerritory from "@salesforce/apex/UserController.ge
 import getOppsSummaryBySalesManagersAndPeriod from "@salesforce/apex/OpportunityController.getOppsSummaryBySalesManagersAndPeriod";
 import ID from "@salesforce/user/Id";
 
-function getCurrenDateTime() {
+export function getCurrenDateTime() {
   const dateOptions = {
     weekday: "long",
     year: "numeric",

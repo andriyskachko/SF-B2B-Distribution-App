@@ -1,21 +1,48 @@
 <template>
-  <lightning-card title="Products" icon-name="standard:catalog">
-    <lightning-layout multiple-rows horizontal-align="center">
-      <template for:each={products} for:item="product">
-        <lightning-layout-item
-          key={product.Id}
-          size="12"
-          small-device-size="6"
-          medium-device-size="4"
-          large-device-size="3"
-        >
-          <c-product-tile
-            product={product}
-            onaddedtocart={handleProductAdded}
-            onremovedfromcart={handleProductRemoved}
-          ></c-product-tile>
-        </lightning-layout-item>
-      </template>
-    </lightning-layout>
-  </lightning-card>
+  <lightning-spinner
+    alternative-text="Loading"
+    size="large"
+    if:true={isLoading}
+  ></lightning-spinner>
+  <div
+    class="slds-illustration slds-illustration_medium slds-p-top_large"
+    aria-hidden="true"
+    if:true={error}
+  >
+    <img
+      src="/projRes/ui-home-private/emptyStates/noEvents.svg"
+      class="slds-illustration__svg slds-p-bottom-small"
+    />
+    <div class="slds-text-color_weak">
+      <h3 class="slds-text-heading_medium">No Products to show.</h3>
+      <p class="slds-text-body_regular">
+        Contact your Sales Manager to get a quote.
+      </p>
+    </div>
+  </div>
+  <template if:false={isLoading}>
+    <lightning-card
+      title="Products"
+      icon-name="standard:catalog"
+      if:true={areProducts}
+    >
+      <lightning-layout multiple-rows horizontal-align="center">
+        <template for:each={products} for:item="product">
+          <lightning-layout-item
+            key={product.Id}
+            size="12"
+            small-device-size="6"
+            medium-device-size="4"
+            large-device-size="3"
+          >
+            <c-product-tile
+              product={product}
+              onaddedtocart={handleProductAdded}
+              onremovedfromcart={handleProductRemoved}
+            ></c-product-tile>
+          </lightning-layout-item>
+        </template>
+      </lightning-layout>
+    </lightning-card>
+  </template>
 </template>

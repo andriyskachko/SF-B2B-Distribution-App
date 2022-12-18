@@ -9,8 +9,9 @@ public with sharing class OpportunityHandler {
     notification.setBody('New Opportunity from ' + opp.Account.Name);
     notification.setNotificationTypeId(customNotificationTypeId);
     notification.setTargetId(opp.Id);
-    notification.setSenderId(opp.OwnerId);
-    recipientIds.add(opp.Account.Assigned_Sales_Manager__c);
+    notification.setSenderId(opp.Account.OwnerId);
+    recipientIds.add(String.valueOf(opp.Account.Assigned_Sales_Manager__c));
+    System.debug(recipientIds);
     notification.send(recipientIds);
   }
 
@@ -18,7 +19,12 @@ public with sharing class OpportunityHandler {
     List<Opportunity> lstTriggerOpportunity
   ) {
     List<Opportunity> lstOpportunity = [
-      SELECT Name, Account.Assigned_Sales_Manager__c, Id, OwnerId, Account.Name
+      SELECT
+        Name,
+        Account.Assigned_Sales_Manager__c,
+        Id,
+        Account.OwnerId,
+        Account.Name
       FROM Opportunity
       WHERE Id IN :lstTriggerOpportunity
       WITH SECURITY_ENFORCED

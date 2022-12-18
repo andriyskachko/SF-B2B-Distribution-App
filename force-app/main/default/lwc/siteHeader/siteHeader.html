@@ -1,7 +1,5 @@
 <template>
-  <c-send-email-modal
-    sales-manager-id={accountAssignedSalesManager}
-  ></c-send-email-modal>
+  <c-send-email-modal manager-id={managerId}></c-send-email-modal>
   <header class="header">
     <lightning-avatar src={siteLogo} alternative-text="B2B Site" size="large">
     </lightning-avatar>
@@ -17,7 +15,7 @@
           label="Contact Sales Manager"
           onclick={handleSendEmail}
         ></lightning-button-icon>
-        <c-order-cart></c-order-cart>
+        <c-order-cart account-id={accountId}></c-order-cart>
       </div>
     </template>
   </header>

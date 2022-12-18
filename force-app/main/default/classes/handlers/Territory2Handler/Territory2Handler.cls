@@ -1,5 +1,5 @@
 public with sharing class Territory2Handler {
-  public static List<Territory__c> createTerritoryCustomObjects(
+  private static List<Territory__c> createTerritoryCustomObjects(
     List<Id> lstTriggerTerritory2Id
   ) {
     List<Territory__c> lstCustomTerritoryObjToInsert = new List<Territory__c>();

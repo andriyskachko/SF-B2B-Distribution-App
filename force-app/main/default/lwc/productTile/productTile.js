@@ -2,6 +2,7 @@ import { LightningElement, api } from "lwc";
 import DEFAULT_PRODUCT_IMAGE from "@salesforce/resourceUrl/B2B_Default_Product_Image";
 
 export default class ProductTile extends LightningElement {
+  /** @type {ProductEntry} */
   @api product;
   quantity = 1;
   isAddedToCart = false;
@@ -53,6 +54,6 @@ export default class ProductTile extends LightningElement {
   }
 
   get totalPrice() {
-    return this.quantity * this.product.price;
+    return this.quantity * this.product.listPrice;
   }
 }

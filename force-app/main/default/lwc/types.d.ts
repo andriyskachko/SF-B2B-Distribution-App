@@ -82,14 +82,19 @@ interface ProductEntry {
   listPrice: number;
 }
 
+interface ProductEntryInCart extends ProductEntry {
+  quantity: number;
+}
+
 interface OrderProduct {
   name: string;
   orderSummary: number;
+  quantity: number;
 }
 
 interface OrderSummary {
   name: string;
   status: "Closed" | "In Progress" | "Cancelled";
   orderSummary: number;
-  _children: OrderProduct[]; // Sort of like children
+  _children: OrderProduct[];
 }

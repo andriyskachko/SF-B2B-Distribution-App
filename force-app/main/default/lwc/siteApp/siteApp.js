@@ -12,6 +12,7 @@ export default class SiteApp extends LightningElement {
   accountId = "";
   isAuthenticated = false;
   subscriptions = [];
+  error;
 
   connectedCallback() {
     this.checkUser();
@@ -32,14 +33,13 @@ export default class SiteApp extends LightningElement {
         const accountId = await authenticate({ token: token });
         this.setLoggedUserAccountId(accountId);
       } catch (error) {
-        console.log(error);
+        this.error = error;
         this.isAuthenticated = false;
       }
     }
   }
 
   setActivePage = (page) => {
-    console.log(page);
     this.activePage = page;
   };
 

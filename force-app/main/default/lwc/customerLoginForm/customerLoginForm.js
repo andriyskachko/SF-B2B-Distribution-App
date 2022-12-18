@@ -7,6 +7,7 @@ export default class CustomerLoginForm extends LightningElement {
   _accountId = "";
   login = "";
   password = "";
+  error;
 
   @wire(MessageContext)
   messageContext;
@@ -19,7 +20,7 @@ export default class CustomerLoginForm extends LightningElement {
       });
       this.setLoggedUserAccountIdAndToken(accountId, token);
     } catch (error) {
-      console.log(error);
+      this.error = error;
     }
   }
 

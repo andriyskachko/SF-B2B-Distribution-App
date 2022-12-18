@@ -47,7 +47,7 @@
         >
           <template for:each={products} for:item="product">
             <p key={product.id}>
-              {product.productName} - {product.quantity} ${product.price}
+              {product.name} - {product.quantity} ${product.listPrice}
             </p>
           </template>
         </div>

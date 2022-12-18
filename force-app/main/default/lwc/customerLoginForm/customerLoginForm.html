@@ -1,5 +1,18 @@
 <template>
   <lightning-card variant="narrow">
+    <div
+      if:true={error}
+      class="slds-notify slds-notify_alert slds-alert_error"
+      role="alert"
+    >
+      <span class="slds-assistive-text">error</span>
+      <lightning-icon
+        icon-name="utility:error"
+        size="x-small"
+        title="Error occured"
+      ></lightning-icon>
+      <h2>{error}</h2>
+    </div>
     <h3 slot="title" class="slds-text-title_bold slds-text-heading_large">
       Login
     </h3>

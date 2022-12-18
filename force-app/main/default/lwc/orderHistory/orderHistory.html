@@ -1,5 +1,14 @@
 <template>
-  <lightning-card title="Order History" icon-name="standard:orders">
+  <lightning-spinner
+    alternative-text="Loading"
+    size="large"
+    if:true={isLoading}
+  ></lightning-spinner>
+  <lightning-card
+    title="Order History"
+    icon-name="standard:orders"
+    if:false={isLoading}
+  >
     <div slot="actions">
       <lightning-button
         label="Print Orders"
