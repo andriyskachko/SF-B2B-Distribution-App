@@ -39,4 +39,35 @@ public with sharing class OpportunityHandler {
       );
     }
   }
+
+  public static void associateStandardPriceBookWithOpportunity(
+    List<Opportunity> lstTriggerOpps
+  ) {
+    List<PriceBook2> lstStandardPriceBooks = [
+      SELECT Id
+      FROM PriceBook2
+      WHERE IsStandard = TRUE
+      WITH SECURITY_ENFORCED
+    ];
+
+    if (lstStandardPriceBooks.size() == 0) {
+      return;
+    }
+
+    Id standardPricebookId = lstStandardPriceBooks[0].Id;
+    List<Opportunity> lstOpps = [
+      SELECT Pricebook2Id
+      FROM Opportunity
+      WHERE Id IN :lstTriggerOpps
+      WITH SECURITY_ENFORCED
+    ];
+    List<Opportunity> lstUpdatedOpps = new List<Opportunity>();
+
+    for (Opportunity o : lstOpps) {
+      o.Pricebook2Id = standardPricebookId;
+      lstUpdatedOpps.add(o);
+    }
+
+    update lstUpdatedOpps;
+  }
 }
