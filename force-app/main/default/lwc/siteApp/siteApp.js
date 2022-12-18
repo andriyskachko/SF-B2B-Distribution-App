@@ -2,8 +2,7 @@ import { LightningElement, wire } from "lwc";
 import {
   MessageContext,
   subscribe,
-  unsubscribe,
-  APPLICATION_SCOPE
+  unsubscribe
 } from "lightning/messageService";
 import authenticate from "@salesforce/apex/SiteAuthController.authenticate";
 import CUSTOMER_LOGGED_IN from "@salesforce/messageChannel/CustomerLoggedIn__c";
@@ -39,16 +38,21 @@ export default class SiteApp extends LightningElement {
     }
   }
 
-  setLoggedUserAccountId(accountId) {
+  setActivePage = (page) => {
+    console.log(page);
+    this.activePage = page;
+  };
+
+  setLoggedUserAccountId = (accountId) => {
     this.accountId = accountId;
     this.isAuthenticated = true;
-  }
+  };
 
-  resetLoggedUserAccountId() {
+  resetLoggedUserAccountId = () => {
     this.accountId = "";
     this.isAuthenticated = false;
     this.removeToken();
-  }
+  };
 
   removeToken() {
     localStorage.removeItem("b2b-token");
@@ -71,8 +75,7 @@ export default class SiteApp extends LightningElement {
     const sub = subscribe(
       this.messageContext,
       CUSTOMER_LOGGED_OUT,
-      this.resetLoggedUserAccountId,
-      { scope: APPLICATION_SCOPE }
+      this.resetLoggedUserAccountId
     );
     this.subscriptions.push(sub);
   }
@@ -81,8 +84,7 @@ export default class SiteApp extends LightningElement {
     const sub = subscribe(
       this.messageContext,
       CUSTOMER_LOGGED_IN,
-      this.setLoggedUserAccountId,
-      { scope: APPLICATION_SCOPE }
+      this.setLoggedUserAccountId
     );
     this.subscriptions.push(sub);
   }

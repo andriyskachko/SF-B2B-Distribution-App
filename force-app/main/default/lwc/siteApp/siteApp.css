@@ -1,0 +1,19 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+}
+
+.main_tab-contents {
+  display: flex;
+  flex: 1;
+}
+
+.tab-content {
+  height: 100%;
+}
