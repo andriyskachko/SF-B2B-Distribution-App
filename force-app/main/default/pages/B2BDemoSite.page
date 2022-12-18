@@ -1,0 +1,9 @@
+<apex:page sidebar="false" showHeader="false">
+  <apex:includeLightning />
+  <div id="root" />
+  <script>
+    $Lightning.use("c:B2BApp", function () {
+      $Lightning.createComponent("c:siteApp", {}, "root", function () {});
+    });
+  </script>
+</apex:page>
