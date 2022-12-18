@@ -1,15 +1,11 @@
 import { LightningElement, api, wire } from "lwc";
-import SendEmailModal from "c/sendEmailModal";
-import { ShowToastEvent } from "lightning/platformShowToastEvent";
+import B2B_SITE_LOGO from "@salesforce/resourceUrl/B2B_Site_Logo";
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import ASSIGNED_SALES_MANAGER_FIELD from "@salesforce/schema/Account.Assigned_Sales_Manager__c";
 
 export default class SiteHeader extends LightningElement {
   @api accountId = "";
-
-  connectedCallback() {
-    this.getAssignedSalesManagerEmail();
-  }
+  siteLogo = B2B_SITE_LOGO;
 
   @wire(getRecord, {
     recordId: "$accountId",
@@ -17,27 +13,11 @@ export default class SiteHeader extends LightningElement {
   })
   account;
 
-  async handleSendEmail() {
-    const success = await SendEmailModal.open({
-      size: "small",
-      recipientIds: [this.accountAssignedSalesManager]
-    });
-
-    if (success) {
-      this.showEmailSentToast();
-    }
-  }
-
-  showEmailSentToast() {
-    const event = new ShowToastEvent({
-      title: "Email has been sent",
-      variant: "success"
-    });
-
-    this.dispatchEvent(event);
-  }
-
   get accountAssignedSalesManager() {
     return getFieldValue(this.account.data, ASSIGNED_SALES_MANAGER_FIELD);
+  }
+
+  handleSendEmail() {
+    this.template.querySelector("c-send-email-modal").openModal();
   }
 }

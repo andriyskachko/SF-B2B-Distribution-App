@@ -1,18 +1,24 @@
 <template>
-  <header>
-    <div class="">
-      <div>Site Logo</div>
-      <template if:true={accountId}>
-        <lightning-button
+  <c-send-email-modal
+    sales-manager-id={accountAssignedSalesManager}
+  ></c-send-email-modal>
+  <header class="header">
+    <lightning-avatar src={siteLogo} alternative-text="B2B Site" size="large">
+    </lightning-avatar>
+    <template if:true={accountId}>
+      <div class="header__controls">
+        <lightning-button-icon
+          icon-name="utility:email"
+          variant="bare"
+          alternative-text="Contact Sales Manager"
           title="Contact Sales Manager"
+          size="large"
           label="Contact Sales Manager"
           onclick={handleSendEmail}
-          variant="neutral"
-        ></lightning-button>
+        ></lightning-button-icon>
+        <c-order-cart></c-order-cart>
         <c-customer-logo account-id={accountId}></c-customer-logo>
-        <c-customer-order-cart></c-customer-order-cart>
-      </template>
-    </div>
-    <c-site-navbar></c-site-navbar>
+      </div>
+    </template>
   </header>
 </template>
