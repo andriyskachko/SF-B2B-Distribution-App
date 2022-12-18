@@ -75,3 +75,21 @@ interface ProductItemDTO {
 interface OrderCartEntry extends ProductItemDTO {
   productListPrice: number;
 }
+
+interface ProductEntry {
+  id: string;
+  name: string;
+  listPrice: number;
+}
+
+interface OrderProduct {
+  name: string;
+  orderSummary: number;
+}
+
+interface OrderSummary {
+  name: string;
+  status: "Closed" | "In Progress" | "Cancelled";
+  orderSummary: number;
+  _children: OrderProduct[]; // Sort of like children
+}
