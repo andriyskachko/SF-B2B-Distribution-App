@@ -1,0 +1,21 @@
+<template>
+  <lightning-card title="Order History" icon-name="standard:orders">
+    <div slot="actions">
+      <lightning-button
+        label="Print Orders"
+        title="Print action"
+        icon-name="utility:print"
+        class="slds-m-left_x-small"
+        onclick={handlePrintOrders}
+      ></lightning-button>
+    </div>
+    <div class="slds-card__body slds-card__body_inner slds-p-horizontal_small">
+      <lightning-tree-grid
+        columns={columns}
+        data={orders}
+        key-field="name"
+        hide-checkbox-column
+      ></lightning-tree-grid>
+    </div>
+  </lightning-card>
+</template>
