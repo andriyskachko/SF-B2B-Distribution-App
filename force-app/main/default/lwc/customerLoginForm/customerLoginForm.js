@@ -20,7 +20,7 @@ export default class CustomerLoginForm extends LightningElement {
       });
       this.setLoggedUserAccountIdAndToken(accountId, token);
     } catch (error) {
-      this.error = error;
+      this.error = error.body.message;
     }
   }
 
@@ -30,12 +30,19 @@ export default class CustomerLoginForm extends LightningElement {
     this.publishPayload();
   }
 
+  get accountId() {
+    return this._accountId;
+  }
+
   setToken(value) {
     localStorage.setItem("b2b-token", value);
   }
 
   publishPayload() {
-    const payload = { accountId: this._accountId };
+    const payload = {
+      accountId: this._accountId
+    };
+
     publish(this.messageContext, CUSTOMER_LOGGED_IN, payload);
   }
 

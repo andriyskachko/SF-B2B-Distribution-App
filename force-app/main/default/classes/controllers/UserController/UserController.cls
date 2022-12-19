@@ -1,4 +1,4 @@
-public with sharing class UserController {
+public without sharing class UserController {
   public static final String REGIONAL_MANAGER_ROLE = 'Regional Manager';
   public static final String SALES_MANAGER_ROLE = 'Sales Manager';
 
@@ -10,7 +10,6 @@ public with sharing class UserController {
       SELECT Warehouse__c
       FROM WarehouseTerritory2Association__c
       WHERE Territory__r.Territory2Id__c = :territory2Id
-      WITH SECURITY_ENFORCED
     ];
 
     if (lstWarehouseTerritory2Association.size() > 0) {
@@ -31,7 +30,6 @@ public with sharing class UserController {
       WHERE
         RoleInTerritory2 = :UserController.REGIONAL_MANAGER_ROLE
         AND Territory2Id = :territory2Id
-      WITH SECURITY_ENFORCED
     ];
 
     if (lstUserTerritory2Association.size() > 0) {
@@ -46,7 +44,6 @@ public with sharing class UserController {
       SELECT Territory2Id
       FROM UserTerritory2Association
       WHERE UserId = :userId
-      WITH SECURITY_ENFORCED
     ];
 
     if (lstUserTerritory2Association.size() > 0) {

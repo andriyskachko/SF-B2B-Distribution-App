@@ -30,18 +30,14 @@ export default class SiteApp extends LightningElement {
     const token = this.getToken();
     if (token) {
       try {
-        const accountId = await authenticate({ token: token });
+        const accountId = await authenticate({ token });
         this.setLoggedUserAccountId(accountId);
+        this.isAuthenticated = true;
       } catch (error) {
-        this.error = error;
         this.isAuthenticated = false;
       }
     }
   }
-
-  setActivePage = (page) => {
-    this.activePage = page;
-  };
 
   setLoggedUserAccountId = (accountId) => {
     this.accountId = accountId;
@@ -80,11 +76,17 @@ export default class SiteApp extends LightningElement {
     this.subscriptions.push(sub);
   }
 
+  handleUserLoggedIn(payload) {
+    const { accountId } = payload;
+    this.accountId = accountId;
+    this.isAuthenticated = true;
+  }
+
   initCustomerLoggedInSubscription() {
     const sub = subscribe(
       this.messageContext,
       CUSTOMER_LOGGED_IN,
-      this.setLoggedUserAccountId
+      this.handleUserLoggedIn
     );
     this.subscriptions.push(sub);
   }

@@ -48,7 +48,7 @@ export default class WarehouseFulfillmentRequests extends NavigationMixin(
   warehouseId = "";
   locationId = "";
   recordId = "";
-  listViewFilter = "00B1x00000AAlwPEAT";
+  listViewFilter = "00B1x00000ABLPgEAP";
 
   @wire(getUserAssociatedTerritoryRegionalManager, { userId: "$userId" })
   wiredRegionalManager({ error, data }) {
@@ -89,7 +89,7 @@ export default class WarehouseFulfillmentRequests extends NavigationMixin(
   wiredRequests({ error, data }) {
     if (data) {
       this.requests = data;
-      this.recordId = this.requests[0].id;
+      this.recordId = this.latestFulfillmentRequest;
       this.error = undefined;
     } else if (error) {
       this.requests = [];
@@ -151,6 +151,10 @@ export default class WarehouseFulfillmentRequests extends NavigationMixin(
 
   get latestFulfillmentRequestName() {
     return this.requests.length ? this.requests[0].name : "";
+  }
+
+  get latestFulfillmentRequest() {
+    return this.requests.length ? this.requests[0].id : null;
   }
 
   get requestsCount() {

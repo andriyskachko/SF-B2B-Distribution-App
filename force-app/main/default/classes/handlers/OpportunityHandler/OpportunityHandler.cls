@@ -11,7 +11,7 @@ public with sharing class OpportunityHandler {
     notification.setTargetId(opp.Id);
     notification.setSenderId(opp.Account.OwnerId);
     recipientIds.add(String.valueOf(opp.Account.Assigned_Sales_Manager__c));
-    System.debug(recipientIds);
+
     notification.send(recipientIds);
   }
 
@@ -39,6 +39,9 @@ public with sharing class OpportunityHandler {
     }
 
     for (Opportunity o : lstOpportunity) {
+      if (o.Account.Assigned_Sales_Manager__c == null) {
+        continue;
+      }
       OpportunityHandler.sendNotificationToAssignedSalesManager(
         o,
         customNotificationTypeId

@@ -26,6 +26,12 @@ export default class SendEmailModal extends LightningElement {
     this.isModalOpen = false;
   }
 
+  handleCancel() {
+    this.subject = "";
+    this.body = "";
+    this.closeModal();
+  }
+
   handleSubmit(event) {
     event.preventDefault();
     const fields = event.detail.fields;
@@ -61,10 +67,7 @@ export default class SendEmailModal extends LightningElement {
         this.subject = "";
         this.body = "";
       } catch (error) {
-        const {
-          body: { message }
-        } = error;
-        this.error = message;
+        this.error = "Unknown Error occured";
       }
     }
   }

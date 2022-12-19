@@ -34,8 +34,10 @@ export default class ProductTile extends LightningElement {
     );
   }
 
+  @api
   handleRemoveFromCart() {
     this.isAddedToCart = false;
+    this.quantity = 1;
     this.dispatchEvent(
       new CustomEvent("removedfromcart", {
         detail: {

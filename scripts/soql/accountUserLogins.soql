@@ -1,0 +1,1 @@
+SELECT Account__c, User_Login__r.Password__c, User_Login__r.Login__c FROM Account_User_Login__c

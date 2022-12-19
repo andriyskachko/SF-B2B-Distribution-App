@@ -35,6 +35,7 @@ export default class OrderHistory extends LightningElement {
       this.isLoading = false;
     } catch (error) {
       this.erorr = error;
+      this.isLoading = false;
     }
   }
 }

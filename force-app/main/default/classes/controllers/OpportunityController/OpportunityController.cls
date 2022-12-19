@@ -1,4 +1,4 @@
-public with sharing class OpportunityController {
+public without sharing class OpportunityController {
   private class OpportunityOrder {
     @AuraEnabled
     public String id { get; set; }
@@ -8,6 +8,9 @@ public with sharing class OpportunityController {
     public Double quantity { get; set; }
     @AuraEnabled
     public Double listPrice { get; set; }
+  }
+
+  private class OpportunityHasNoProductsException extends Exception {
   }
 
   @AuraEnabled(cacheable=true)
@@ -20,7 +23,6 @@ public with sharing class OpportunityController {
       'SELECT AccountId, Account.Name, SUM(TotalOpportunityQuantity) totalQuantity, SUM(Amount) totalAmount FROM Opportunity WHERE CloseDate = ' +
       periodFrame +
       ' AND Account.Assigned_Sales_Manager__c IN :salesManagersIds' +
-      ' WITH SECURITY_ENFORCED' +
       ' GROUP BY AccountId, Account.Name';
 
     List<sObject> lstAggregateResult = Database.query(query);
@@ -46,7 +48,6 @@ public with sharing class OpportunityController {
   ) {
     try {
       List<OpportunityOrderDTO> lstOpportunityOrder = new List<OpportunityOrderDTO>();
-
       List<Opportunity> lstOpp = [
         SELECT
           Amount,
@@ -55,7 +56,6 @@ public with sharing class OpportunityController {
           (SELECT Product2.Name, ListPrice, Quantity FROM OpportunityLineItems)
         FROM Opportunity
         WHERE AccountId = :accountId
-        WITH SECURITY_ENFORCED
       ];
 
       for (Opportunity o : lstOpp) {
@@ -90,10 +90,12 @@ public with sharing class OpportunityController {
   @AuraEnabled
   public static Opportunity createNewOpportunityForAccount(
     String accountId,
-    List<OpportunityOrder> lstOppOrder
+    List<OpportunityOrder> products
   ) {
-    System.debug(lstOppOrder);
     try {
+      if (products == null | products.size() == 0) {
+        throw new OpportunityHasNoProductsException('Order has no products!');
+      }
       Opportunity opp = new Opportunity();
       opp.AccountId = accountId;
       opp.StageName = 'Prospecting';
@@ -104,7 +106,7 @@ public with sharing class OpportunityController {
 
       List<OpportunityLineItem> lstOppLineItem = new List<OpportunityLineItem>();
 
-      for (OpportunityOrder o : lstOppOrder) {
+      for (OpportunityOrder o : products) {
         OpportunityLineItem oppLineItem = new OpportunityLineItem();
         oppLineItem.OpportunityId = opp.Id;
         oppLineItem.Quantity = o.quantity;

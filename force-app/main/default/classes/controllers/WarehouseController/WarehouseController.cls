@@ -1,4 +1,4 @@
-public with sharing class WarehouseController {
+public without sharing class WarehouseController {
   private class WarehouseHasNoProductException extends Exception {
   }
 

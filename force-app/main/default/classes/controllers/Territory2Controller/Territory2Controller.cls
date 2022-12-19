@@ -7,7 +7,6 @@ public with sharing class Territory2Controller {
       SELECT UserId, User.Name
       FROM UserTerritory2Association
       WHERE Territory2Id = :territory2Id AND RoleInTerritory2 = :role
-      WITH SECURITY_ENFORCED
       LIMIT 5000
     ];
 
@@ -29,7 +28,6 @@ public with sharing class Territory2Controller {
     List<Territory2> lstTerritory2 = [
       SELECT Id, Name
       FROM Territory2
-      WITH SECURITY_ENFORCED
       LIMIT 5000
     ];
 
@@ -37,7 +35,6 @@ public with sharing class Territory2Controller {
       SELECT UserID, Territory2Id
       FROM UserTerritory2Association
       WHERE RoleInTerritory2 = :role
-      WITH SECURITY_ENFORCED
       LIMIT 5000
     ];
 

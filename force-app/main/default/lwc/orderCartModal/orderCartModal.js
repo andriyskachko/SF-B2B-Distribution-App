@@ -1,5 +1,7 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track, wire } from "lwc";
+import { publish, MessageContext } from "lightning/messageService";
 import createNewOpportunityForAccount from "@salesforce/apex/OpportunityController.createNewOpportunityForAccount";
+import CUSTOMER_CANCELED_ORDER from "@salesforce/messageChannel/CustomerCanceledOrder__c";
 
 export default class OrderCartModal extends LightningElement {
   @track isModalOpen = false;
@@ -7,6 +9,14 @@ export default class OrderCartModal extends LightningElement {
   @api products = [];
   @api accountId = "";
   error;
+  isLoading = true;
+
+  @wire(MessageContext)
+  messageContext;
+
+  renderedCallback() {
+    this.isLoading = false;
+  }
 
   get cartSize() {
     return this.products.length;
@@ -28,16 +38,22 @@ export default class OrderCartModal extends LightningElement {
     this.isModalOpen = false;
   }
 
+  handleCancelOrder() {
+    publish(this.messageContext, CUSTOMER_CANCELED_ORDER);
+    this.closeModal();
+  }
+
   async handleConfirmOrder() {
     try {
+      this.isLoading = true;
       const response = await createNewOpportunityForAccount({
-        accountId: this.accountId,
-        lstOppOrder: this.products
+        accountId: this.accountId.accountId,
+        products: this.products
       });
-
       if (response) this.closeModal();
     } catch (error) {
       this.error = error.body.message;
+      this.isLoading = false;
     }
   }
 }
