@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Regional_Manager_Custom_Permission</name>
+    </customPermissions>
+    <description>Permission set for B2B Regional Manager</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>B2B Regional Manager</label>
+</PermissionSet>
