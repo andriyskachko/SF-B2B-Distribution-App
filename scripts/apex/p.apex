@@ -1,1 +1,1 @@
-SiteAuthController.authenticate('hello world54');
+System.debug(AccountController.getAssignedAccounts('0051x00000CSZUqAAP'));

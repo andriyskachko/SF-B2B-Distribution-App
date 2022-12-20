@@ -3,7 +3,7 @@ public with sharing class LocationController {
   public static List<ProductItemDTO> getLocationProductItmes(
     String locationId
   ) {
-    Schema.Location location = [
+    List<Schema.Location> lstLocation = [
       SELECT
         (
           SELECT
@@ -20,6 +20,12 @@ public with sharing class LocationController {
       WITH SECURITY_ENFORCED
       LIMIT 5000
     ];
+
+    if (lstLocation.size() == 0) {
+      return null;
+    }
+
+    Schema.Location location = lstLocation[0];
 
     if (location.ProductItems.isEmpty()) {
       return null;

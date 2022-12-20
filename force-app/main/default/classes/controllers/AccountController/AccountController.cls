@@ -1,4 +1,4 @@
-public with sharing class AccountController {
+public without sharing class AccountController {
   private class NoAccountFoundException extends Exception {
   }
   private class NoAssignedSalesManagerFoundException extends Exception {
