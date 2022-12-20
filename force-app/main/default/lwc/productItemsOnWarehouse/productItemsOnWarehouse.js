@@ -122,7 +122,7 @@ export default class ProductItemsOnWarehouse extends LightningElement {
     this.filteredData = this._data.filter((record) => {
       const { productName } = record;
       const regex = new RegExp(this.searchString);
-      return regex.test(productName);
+      return regex.test(productName.toLowerCase());
     });
   }
 

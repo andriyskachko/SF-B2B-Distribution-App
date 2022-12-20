@@ -55,11 +55,9 @@ export default class WarehouseFulfillmentRequests extends NavigationMixin(
     if (data) {
       this.regionalManagerId = data;
       this.error = undefined;
-      console.log(data);
     } else if (error) {
       this.regionalManagerId = "";
       this.error = error;
-      console.log(error);
     }
   }
 
