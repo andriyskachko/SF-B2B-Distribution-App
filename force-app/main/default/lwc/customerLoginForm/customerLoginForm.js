@@ -42,7 +42,6 @@ export default class CustomerLoginForm extends LightningElement {
     const payload = {
       accountId: this._accountId
     };
-
     publish(this.messageContext, CUSTOMER_LOGGED_IN, payload);
   }
 
